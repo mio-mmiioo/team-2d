@@ -73,9 +73,6 @@
     <ClCompile Include="ImGui\imgui_widgets.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Source\PlayScene\Stage\Stage.cpp">
-      <Filter>PlayScene\Stage</Filter>
-    </ClCompile>
     <ClCompile Include="Source\PlayScene\Player\Player.cpp">
       <Filter>PlayScene\Player</Filter>
     </ClCompile>
@@ -151,9 +148,6 @@
     </ClInclude>
     <ClInclude Include="ImGui\imstb_truetype.h">
       <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\PlayScene\Stage\Stage.h">
-      <Filter>PlayScene\Stage</Filter>
     </ClInclude>
     <ClInclude Include="Source\PlayScene\Player\Player.h">
       <Filter>PlayScene\Player</Filter>
