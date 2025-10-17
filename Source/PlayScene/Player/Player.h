@@ -8,10 +8,11 @@ public:
 	void Update() override;
 	void Draw() override;
 private:
-	bool IsClear(); // ステージをクリアできたか 時間内に線を踏むことができた？
+	bool IsClear();			// ステージをクリアできたか 時間内に線を踏むことができたか
+	void SoundShuttleRun(); // soundTimer_をもとにシャトルランの音を再現する
 
 	int hp_;
 	float soundTimer_;
-	bool isGoRight_; // true→右に進んでいる false→左に進んでいる
-	int counter_; // クリア(線を踏んだ)回数
+	bool isGoRight_;		// true→右に進んでいる false→左に進んでいる
+	int counter_;			// クリア(線を踏んだ)回数
 };

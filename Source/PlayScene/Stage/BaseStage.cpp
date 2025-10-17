@@ -51,7 +51,7 @@ int BaseStage::CheckRight(VECTOR2 pos)
 	}
 	// チップにどれくらいめり込んでいるかを返す
 	int x = pos.x / imageSize_.x;
-	int dx = pos.x - x * imageSize_.x; // チップの中の座標
+	int dx = pos.x - x * imageSize_.x;
 	return dx + 1;
 }
 

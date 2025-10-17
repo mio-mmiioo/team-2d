@@ -2,6 +2,7 @@
 #include "../Stage/BaseStage.h"
 #include <assert.h>
 #include "../../../Library/Input.h"
+#include "../../Sound.h"
 
 namespace PLAYER {
 	float moveSpeed = 1.0f;
@@ -18,8 +19,8 @@ Player::Player(VECTOR2 pos)
 	anim_ = { 0, 0 };
 	position_ = pos;
 	hp_ = PLAYER::MAX_HP; // シャトルランは2回失敗したら失格
-	soundTimer_ = 9.0f; // 9回音を鳴らす、この書き方よくないかも、、、
-	isGoRight_ = true; // 最初は右に進む
+	soundTimer_ = 9.0f;   // 9回音を鳴らす、この書き方よくないかも、、、
+	isGoRight_ = true;	  // 最初は右に進む
 	counter_ = 0;
 }
 
@@ -30,6 +31,9 @@ Player::~Player()
 void Player::Update()
 {
 	soundTimer_ -= Time::DeltaTime();
+	
+	SoundShuttleRun(); // まだ中身書いてない
+
 	VECTOR2 move;
 
 	// キーの入力
@@ -138,8 +142,17 @@ void Player::Draw()
 
 	DrawBox(position_.x - 24, position_.y - 32, position_.x + 24, position_.y + 32, GetColor(255, 0, 0), FALSE); // 当たり判定の線
 	DrawFormatString(100, 100, GetColor(255, 255, 255), "%04f", soundTimer_);
-	DrawFormatString(100, 120, GetColor(255, 255, 255), "%04d", counter_);
-	DrawFormatString(100, 140, GetColor(255, 255, 255), "%04d", hp_);
+	DrawFormatString(100, 120, GetColor(255, 255, 255), "カウンター：%04d", counter_);
+	DrawFormatString(100, 140, GetColor(255, 255, 255), "HP：%04d", hp_);
+
+	if (isGoRight_)
+	{
+		DrawFormatString(100, 160, GetColor(255, 255, 255), "みぎに進む");
+	}
+	else
+	{
+		DrawFormatString(100, 160, GetColor(255, 255, 255), "ひだりに進む");
+	}
 }
 
 bool Player::IsClear()
@@ -160,4 +173,16 @@ bool Player::IsClear()
 		}
 	}
 	return false;
+}
+
+void Player::SoundShuttleRun()
+{
+	if (isGoRight_ == true) // 1,2,3,...
+	{
+
+	}
+	else // 8,7,6,...
+	{
+
+	}
 }
