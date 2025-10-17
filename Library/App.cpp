@@ -3,6 +3,7 @@
 #include "ObjectManager.h"
 #include "Time.h"
 #include <DxLib.h>
+#include "Input.h"
 
 void AppInit()
 {
@@ -13,6 +14,7 @@ void AppInit()
 
 void AppUpdate()
 {
+	Input::KeyStateUpdate();
 	SceneManager::Update();
 	ObjectManager::Update();
 }

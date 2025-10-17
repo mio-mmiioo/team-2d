@@ -4,7 +4,7 @@
 #include "../../../Library/Input.h"
 
 namespace PLAYER {
-	float moveSpeed = 0.5f;
+	float moveSpeed = 1.0f;
 }
 
 Player::Player(VECTOR2 pos)
@@ -30,10 +30,18 @@ void Player::Update()
 	}
 	if (Input::IsKeyKeep(KEY_INPUT_A))
 	{
+		move.x -= 1;
+	}
+	if (Input::IsKeyKeep(KEY_INPUT_W))
+	{
 		move.y -= 1;
 	}
+	if (Input::IsKeyKeep(KEY_INPUT_S))
+	{
+		move.y += 1;
+	}
 
-	position_ = move * PLAYER::moveSpeed;
+	position_ = position_ + (move * PLAYER::moveSpeed);
 }
 
 void Player::Draw()
