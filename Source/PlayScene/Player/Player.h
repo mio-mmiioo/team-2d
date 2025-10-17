@@ -1,8 +1,6 @@
 #pragma once
 #include "../../../Library/Object2D.h"
 
-class Stage;
-
 class Player : public Object2D {
 public:
 	Player(VECTOR2 pos);

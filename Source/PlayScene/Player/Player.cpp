@@ -42,11 +42,25 @@ void Player::Update()
 	}
 
 	position_ = position_ + (move * PLAYER::moveSpeed);
+
+	//// ステージとの当たり判定 
+	//BaseStage* st = FindGameObject<BaseStage>();
+
+	//if (move.x < 0)
+	//{
+	//	int push = st->CheckLeft(position_ + VECTOR2(-24, -31)); // 左上
+	//	position_.x += push;
+	//	push = st->CheckLeft(position_ + VECTOR2(-24, 31)); // 左下
+	//	position_.x += push;
+	//}
+
+
+
 }
 
 void Player::Draw()
 {
 	Object2D::Draw();
-	BaseStage* st = FindGameObject<BaseStage>();
+
 	DrawBox(position_.x - 24, position_.y - 32, position_.x + 24, position_.y + 32, GetColor(255, 0, 0), FALSE); // 当たり判定の線
 }
