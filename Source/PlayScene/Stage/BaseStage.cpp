@@ -13,17 +13,22 @@ BaseStage::BaseStage()
 	hImage_ = LoadGraph("data/image/parts.png");
 	assert(hImage_ > 0);
 	imageSize_ = VECTOR2(64, 64);
-
+	isPlayerAlive_ = true; // プレイヤー生きてる
 	SetStageData(&baseStage_, "data/stage/baseStage.csv");
 	CreateStage(1); // 最初のステージを生成
 }
 
 BaseStage::~BaseStage()
 {
+	SceneManager::ChangeScene("RESULT");
 }
 
 void BaseStage::Update()
 {
+	if (isPlayerAlive_ == false)
+	{
+		DestroyMe();
+	}
 }
 
 void BaseStage::Draw()

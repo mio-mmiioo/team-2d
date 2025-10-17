@@ -9,10 +9,14 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	// 当たり判定関連
 	int CheckRight(VECTOR2 pos);
 	int CheckLeft(VECTOR2 pos);
 	int CheckDown(VECTOR2 pos);
 	int CheckUp(VECTOR2 pos);
+
+	// ゲームオーバー条件関連
+	void SetPlayerAlive(bool isAlive) { isPlayerAlive_ = isAlive; }
 
 private:
 	void SetStageData(std::vector<std::vector<int>> *stage, const char* filename); // ステージデータをセットするための関数
@@ -25,4 +29,5 @@ private:
 	std::vector<std::vector<int>> currentStage_; // 現在のステージ
 
 	int hImage_;
+	bool isPlayerAlive_;
 };

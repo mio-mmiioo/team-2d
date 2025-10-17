@@ -6,6 +6,7 @@
 namespace PLAYER {
 	float moveSpeed = 1.0f;
 	int halfSizeX = 24;
+	const int MAX_HP = 2;
 }
 
 Player::Player(VECTOR2 pos)
@@ -16,6 +17,7 @@ Player::Player(VECTOR2 pos)
 	imageSize_ = VECTOR2(64, 64);
 	anim_ = { 0, 0 };
 	position_ = pos;
+	hp_ = PLAYER::MAX_HP; // シャトルランは2回失敗したら失格
 }
 
 Player::~Player()
@@ -42,12 +44,17 @@ void Player::Update()
 		move.y += 1;
 	}
 
+	if (Input::IsKeyDown(KEY_INPUT_G)) // 雑にプレイヤーを殺害
+	{
+		hp_ -= 1;
+	}
+
 	position_ = position_ + (move * PLAYER::moveSpeed);
+
+	BaseStage* st = FindGameObject<BaseStage>();
 
 	// ステージとの当たり判定・位置修正
 	{
-		BaseStage* st = FindGameObject<BaseStage>();
-
 		if (move.x < 0)
 		{
 			int push = st->CheckLeft(position_ + VECTOR2(-PLAYER::halfSizeX, -(imageSize_.y / 2 - 1))); // 左上
@@ -78,7 +85,11 @@ void Player::Update()
 		}
 	}
 
-
+	if (hp_ <= 0)
+	{
+		st->SetPlayerAlive(false);
+		DestroyMe();
+	}
 
 }
 
