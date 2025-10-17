@@ -10,6 +10,6 @@ public:
 	void Draw() override;
 	
 private:
-	std::vector<std::vector<int>> map;
+	std::vector<std::vector<int>> stage_; // ステージの変更する部分
 	int hImage_;
 };

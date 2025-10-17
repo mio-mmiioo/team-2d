@@ -1,11 +1,11 @@
 #include "PlayScene.h"
 #include <DxLib.h>
-#include "Stage/Stage.h"
+#include "Stage/BaseStage.h"
 #include "../../Library/Input.h"
 
 PlayScene::PlayScene()
 {
-	new Stage(1);
+	new BaseStage();
 }
 
 PlayScene::~PlayScene()

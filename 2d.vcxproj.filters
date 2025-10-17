@@ -85,6 +85,9 @@
     <ClCompile Include="Library\Input.cpp">
       <Filter>Library</Filter>
     </ClCompile>
+    <ClCompile Include="Source\PlayScene\Stage\BaseStage.cpp">
+      <Filter>PlayScene\Stage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Library\App.h">
@@ -160,6 +163,9 @@
     </ClInclude>
     <ClInclude Include="Library\Input.h">
       <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayScene\Stage\BaseStage.h">
+      <Filter>PlayScene\Stage</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
