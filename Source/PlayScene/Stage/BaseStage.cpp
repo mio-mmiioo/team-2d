@@ -5,7 +5,6 @@
 
 namespace BASESTAGE {
 	char filename[64]; // 生成するcurrentStage_のファイル名
-	const int LINE_POS_LEFT = 256; // currentStageを描画し始める位置を設定
 }
 
 BaseStage::BaseStage()
@@ -86,6 +85,13 @@ int BaseStage::CheckUp(VECTOR2 pos)
 	return imageSize_.y - dy;
 }
 
+void BaseStage::ChooseStage(int count)
+{
+	// プレイヤーのクリアカウント(走った回数)によって、登場させたいstageを変えたいならここで変える
+
+
+}
+
 void BaseStage::SetStageData(std::vector<std::vector<int>> *stage, const char* filename)
 {
 	CsvReader* csv = new CsvReader(filename);
@@ -143,12 +149,6 @@ void BaseStage::CreateStage(int number)
 	SetStageData(&currentStage_, BASESTAGE::filename, 4, 4);
 }
 
-void BaseStage::ChooseStage()
-{
-	// プレイヤーのクリアカウント(走った回数)によって、登場させたいstageを変えたいならここで変える
-
-
-}
 
 bool BaseStage::IsWall(VECTOR2 pos)
 {

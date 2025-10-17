@@ -8,5 +8,10 @@ public:
 	void Update() override;
 	void Draw() override;
 private:
+	bool IsClear(); // ステージをクリアできたか 時間内に線を踏むことができた？
+
 	int hp_;
+	float soundTimer_;
+	bool isGoRight_; // true→右に進んでいる false→左に進んでいる
+	int counter_; // クリア(線を踏んだ)回数
 };
