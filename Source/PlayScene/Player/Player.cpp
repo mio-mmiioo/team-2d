@@ -43,16 +43,16 @@ void Player::Update()
 
 	position_ = position_ + (move * PLAYER::moveSpeed);
 
-	//// ステージとの当たり判定 
-	//BaseStage* st = FindGameObject<BaseStage>();
+	// ステージとの当たり判定 
+	BaseStage* st = FindGameObject<BaseStage>();
 
-	//if (move.x < 0)
-	//{
-	//	int push = st->CheckLeft(position_ + VECTOR2(-24, -31)); // 左上
-	//	position_.x += push;
-	//	push = st->CheckLeft(position_ + VECTOR2(-24, 31)); // 左下
-	//	position_.x += push;
-	//}
+	if (move.x < 0)
+	{
+		int push = st->CheckLeft(position_ + VECTOR2(-24, -31)); // 左上
+		position_.x += push;
+		push = st->CheckLeft(position_ + VECTOR2(-24, 31)); // 左下
+		position_.x += push;
+	}
 
 
 
