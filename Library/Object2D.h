@@ -20,6 +20,13 @@ inline VECTOR2 operator +(VECTOR2 a, VECTOR2 b) {
 	return r;
 }
 
+inline VECTOR2 operator *(VECTOR2 a, float b) {
+	VECTOR2 r;
+	r.x = a.x * b;
+	r.y = a.y * b;
+	return r;
+}
+
 inline float VSize(VECTOR2 v) {
 	return sqrtf(v.x * v.x + v.y * v.y);
 }

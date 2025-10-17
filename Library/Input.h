@@ -6,7 +6,7 @@ namespace Input {
 	void KeyStateUpdate();				//キーの状態を毎フレーム更新する
 	bool IsKeyUP(int keyCode);			//離した瞬間
 	bool IsKeyDown(int keyCode);		//押した瞬間
-	int IsKeepKeyDown(int keyCode);		//押している間
+	int IsKeyKeep(int keyCode);		//押している間
 
 	// マウス関連
 	bool IsMouseDown(int button);		//ボタンが押された瞬間
