@@ -159,6 +159,7 @@ bool BaseStage::IsWall(VECTOR2 pos)
 	// チップの番号を見て、壁かどうか確定する 壁じゃない番号を記入する
 	switch (baseStage_[y][x]) { 
 	case 0:
+	case 1:
 		return false;
 	}
 	return true;
