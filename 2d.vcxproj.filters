@@ -19,6 +19,9 @@
     <Filter Include="PlayScene\Player">
       <UniqueIdentifier>{e3644418-df90-4141-a612-a4ccb0c19fe8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResultScene">
+      <UniqueIdentifier>{1bd8dcfe-2faa-40b5-8d5a-6c254215d834}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Library\App.cpp">
@@ -84,6 +87,9 @@
     </ClCompile>
     <ClCompile Include="Source\PlayScene\Stage\BaseStage.cpp">
       <Filter>PlayScene\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ResultScene\ResultScene.cpp">
+      <Filter>ResultScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="Source\PlayScene\Stage\BaseStage.h">
       <Filter>PlayScene\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ResultScene\ResultScene.h">
+      <Filter>ResultScene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
