@@ -61,13 +61,20 @@ void Player::Update()
 			push = st->CheckRight(position_ + VECTOR2(24, 31)); // 右下
 			position_.x -= push;
 		}
-		//if (move.y < 0)
-		//{
-		//	int push = st->CheckDown(position_ + VECTOR2(24, -31)); // 右上
-		//	position_.y += push;
-		//	push = st->CheckDown(position_ + VECTOR2(-24, -31)); // 左上
-		//	position_.y += push;
-		//}
+		if (move.y < 0)
+		{
+			int push = st->CheckUp(position_ + VECTOR2(24, -32)); // 右上
+			position_.y += push;
+			push = st->CheckUp(position_ + VECTOR2(-24, -32)); // 左上
+			position_.y += push;
+		}
+		if (move.y > 0)
+		{
+			int push = st->CheckDown(position_ + VECTOR2(24, 32)); // 右下
+			position_.y -= push;
+			push = st->CheckDown(position_ + VECTOR2(-24, 32)); // 左下
+			position_.y -= push;
+		}
 	}
 
 
