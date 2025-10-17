@@ -4,12 +4,14 @@
 #include "Time.h"
 #include <DxLib.h>
 #include "Input.h"
+#include "../Source/Sound.h"
 
 void AppInit()
 {
 	ObjectManager::Init();
 	SceneManager::Init();
 	Time::Init();
+	Sound::Init();
 }
 
 void AppUpdate()
