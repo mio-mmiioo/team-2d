@@ -154,7 +154,7 @@ bool Player::IsClear()
 	}
 	else // ¶‚Éi‚ñ‚Å‚¢‚éê‡
 	{
-		if (BASESTAGE::LINE_POS_RIGHT >= position_.x)
+		if (BASESTAGE::LINE_POS_LEFT >= position_.x)
 		{
 			return true;
 		}
