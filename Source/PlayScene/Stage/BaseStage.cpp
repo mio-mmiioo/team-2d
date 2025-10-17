@@ -2,7 +2,6 @@
 #include <assert.h>
 #include "../../../Library/CsvReader.h"
 #include "../Player/Player.h"
-#include "Stage.h"
 
 namespace BASESTAGE {
 	char filename[64]; // ê∂ê¨Ç∑ÇÈcurrentStage_ÇÃÉtÉ@ÉCÉãñº

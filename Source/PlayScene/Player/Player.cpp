@@ -1,5 +1,5 @@
 #include "Player.h"
-#include "../Stage/Stage.h"
+#include "../Stage/BaseStage.h"
 #include <assert.h>
 #include "../../../Library/Input.h"
 
@@ -47,6 +47,6 @@ void Player::Update()
 void Player::Draw()
 {
 	Object2D::Draw();
-	Stage* st = FindGameObject<Stage>();
+	BaseStage* st = FindGameObject<BaseStage>();
 	DrawBox(position_.x - 24, position_.y - 32, position_.x + 24, position_.y + 32, GetColor(255, 0, 0), FALSE); // ìñÇΩÇËîªíËÇÃê¸
 }
