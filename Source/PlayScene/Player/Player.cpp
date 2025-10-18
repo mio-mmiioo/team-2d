@@ -3,6 +3,7 @@
 #include <assert.h>
 #include "../../../Library/Input.h"
 #include "../../Sound.h"
+#include "../../Screen.h" // プレイヤーが画面外に出ていないか判定するのに使用
 
 namespace PLAYER {
 	float moveSpeed = 1.0f;
@@ -10,7 +11,7 @@ namespace PLAYER {
 	const int MAX_HP = 2;
 
 	const float GRAVITY = 0.05f;
-	const float JUMP_HEIGHT = 64.0f * 3.0f;//ブロックの高さ基準
+	const float JUMP_HEIGHT = 64.0f * 2.0f;//ブロックの高さ基準
 	const float JUMP_V0 = -sqrtf(2.0f * GRAVITY * JUMP_HEIGHT);
 }
 
@@ -52,14 +53,6 @@ void Player::Update()
 		{
 			move.x -= 1;
 		}
-		if (Input::IsKeyKeep(KEY_INPUT_W))
-		{
-			move.y -= 1;
-		}
-		if (Input::IsKeyKeep(KEY_INPUT_S))
-		{
-			move.y += 1;
-		}
 
 		if (onGround_ == true)
 		{
@@ -81,19 +74,22 @@ void Player::Update()
 
 	// ステージとの当たり判定・位置修正
 	{
-		if (move.x < 0)
+		// 左右のめり込み判定
 		{
-			int push = st->CheckLeft(position_ + VECTOR2(-PLAYER::halfSizeX, -(imageSize_.y / 2 - 1))); // 左上
-			position_.x += push;
-			push = st->CheckLeft(position_ + VECTOR2(-PLAYER::halfSizeX, imageSize_.y / 2 - 1)); // 左下
-			position_.x += push;
-		}
-		if (move.x > 0)
-		{
-			int push = st->CheckRight(position_ + VECTOR2(PLAYER::halfSizeX, -(imageSize_.y / 2 - 1))); // 右上
-			position_.x -= push;
-			push = st->CheckRight(position_ + VECTOR2(PLAYER::halfSizeX, imageSize_.y / 2 - 1)); // 右下
-			position_.x -= push;
+			if (move.x < 0)
+			{
+				int push = st->CheckLeft(position_ + VECTOR2(-PLAYER::halfSizeX, -(imageSize_.y / 2 - 1))); // 左上
+				position_.x += push;
+				push = st->CheckLeft(position_ + VECTOR2(-PLAYER::halfSizeX, imageSize_.y / 2 - 1)); // 左下
+				position_.x += push;
+			}
+			if (move.x > 0)
+			{
+				int push = st->CheckRight(position_ + VECTOR2(PLAYER::halfSizeX, -(imageSize_.y / 2 - 1))); // 右上
+				position_.x -= push;
+				push = st->CheckRight(position_ + VECTOR2(PLAYER::halfSizeX, imageSize_.y / 2 - 1)); // 右下
+				position_.x -= push;
+			}
 		}
 
 		// 重力をかける
@@ -101,36 +97,51 @@ void Player::Update()
 		velocityY_ += PLAYER::GRAVITY;
 		onGround_ = false;
 		
-		if (velocityY_ < 0.0f)
+		// 上下のめり込み判定
 		{
-			int push = st->CheckUp(position_ + VECTOR2(PLAYER::halfSizeX, -(imageSize_.y / 2))); // 右上
-			if (push > 0)
+			if (velocityY_ < 0.0f)
 			{
-				velocityY_ = 0.0f;
-				position_.y += push;
+				int push = st->CheckUp(position_ + VECTOR2(PLAYER::halfSizeX, -(imageSize_.y / 2))); // 右上
+				if (push > 0)
+				{
+					velocityY_ = 0.0f;
+					position_.y += push;
+				}
+				push = st->CheckUp(position_ + VECTOR2(-PLAYER::halfSizeX, -(imageSize_.y / 2))); // 左上
+				if (push > 0)
+				{
+					velocityY_ = 0.0f;
+					position_.y += push;
+				}
 			}
-			push = st->CheckUp(position_ + VECTOR2(-PLAYER::halfSizeX, -(imageSize_.y / 2))); // 左上
-			if (push > 0)
+			else
 			{
-				velocityY_ = 0.0f;
-				position_.y += push;
+				int push = st->CheckDown(position_ + VECTOR2(PLAYER::halfSizeX, imageSize_.y / 2)); // 右下
+				if (push > 0)
+				{
+					onGround_ = true;
+					velocityY_ = 0.0f;
+					position_.y -= push - 1;
+				}
+				push = st->CheckDown(position_ + VECTOR2(-PLAYER::halfSizeX, imageSize_.y / 2)); // 左下
+				if (push > 0)
+				{
+					onGround_ = true;
+					velocityY_ = 0.0f;
+					position_.y -= push - 1;
+				}
 			}
 		}
-		else
+
+		// 画面外にプレイヤーを行かせないように位置を修正
 		{
-			int push = st->CheckDown(position_ + VECTOR2(PLAYER::halfSizeX, imageSize_.y / 2)); // 右下
-			if (push > 0)
+			if (position_.x < PLAYER::halfSizeX)
 			{
-				onGround_ = true;
-				velocityY_ = 0.0f;
-				position_.y -= push - 1;
+				position_.x = PLAYER::halfSizeX;
 			}
-			push = st->CheckDown(position_ + VECTOR2(-PLAYER::halfSizeX, imageSize_.y / 2)); // 左下
-			if (push > 0)
+			else if (position_.x > Screen::WIDTH - PLAYER::halfSizeX)
 			{
-				onGround_ = true;
-				velocityY_ = 0.0f;
-				position_.y -= push - 1;
+				position_.x = Screen::WIDTH - PLAYER::halfSizeX;
 			}
 		}
 	}
