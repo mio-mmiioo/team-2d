@@ -202,13 +202,19 @@ void Player::Draw()
 	DrawFormatString(100, 120, GetColor(255, 255, 255), "カウンター：%04d", counter_);
 	DrawFormatString(100, 140, GetColor(255, 255, 255), "HP：%04d", hp_);
 
+
+	DrawLine(BASESTAGE::LINE_POS_LEFT, 0, BASESTAGE::LINE_POS_LEFT, Screen::HEIGHT, GetColor(255, 255, 255));
+	DrawLine(BASESTAGE::LINE_POS_RIGHT, 0, BASESTAGE::LINE_POS_RIGHT, Screen::HEIGHT, GetColor(255, 255, 255));
+
 	if (isGoRight_)
 	{
 		DrawFormatString(100, 160, GetColor(255, 255, 255), "みぎに進む");
+		DrawLine(BASESTAGE::LINE_POS_RIGHT, 0, BASESTAGE::LINE_POS_RIGHT, Screen::HEIGHT, GetColor(255, 0, 0));
 	}
 	else
 	{
 		DrawFormatString(100, 160, GetColor(255, 255, 255), "ひだりに進む");
+		DrawLine(BASESTAGE::LINE_POS_LEFT, 0, BASESTAGE::LINE_POS_LEFT, Screen::HEIGHT, GetColor(255, 0, 0));
 	}
 
 	if (onGround_)
