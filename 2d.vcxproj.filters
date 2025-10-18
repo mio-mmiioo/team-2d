@@ -92,6 +92,7 @@
       <Filter>ResultScene</Filter>
     </ClCompile>
     <ClCompile Include="Source\Sound.cpp" />
+    <ClCompile Include="Source\Image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Library\App.h">
@@ -172,5 +173,6 @@
       <Filter>ResultScene</Filter>
     </ClInclude>
     <ClInclude Include="Source\Sound.h" />
+    <ClInclude Include="Source\Image.h" />
   </ItemGroup>
 </Project>

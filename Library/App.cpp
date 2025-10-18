@@ -5,6 +5,7 @@
 #include <DxLib.h>
 #include "Input.h"
 #include "../Source/Sound.h"
+#include "../Source/Image.h"
 
 void AppInit()
 {
@@ -12,6 +13,7 @@ void AppInit()
 	SceneManager::Init();
 	Time::Init();
 	Sound::Init();
+	Image::Init();
 }
 
 void AppUpdate()
