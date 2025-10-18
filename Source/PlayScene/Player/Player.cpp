@@ -5,6 +5,7 @@
 #include "../../Sound.h"
 #include "../../Image.h"
 #include "../../Screen.h" // プレイヤーが画面外に出ていないか判定するのに使用
+#include "Level.h"
 
 namespace PLAYER {
 	float moveSpeed = 1.0f;
@@ -39,7 +40,7 @@ Player::Player(VECTOR2 pos)
 	soundScaleTimer_ = PLAYER::scaleTime;
 	soundScaleCounter_ = 0;
 	isGoRight_ = true;	  // 最初は右に進む
-	counter_ = 0;
+	counter_ = 5;
 	onGround_ = false;
 	velocityY_ = 0;
 
@@ -228,7 +229,10 @@ void Player::Update()
 			isGoRight_ = true;
 			PlaySoundMem(Sound::scale[8], DX_PLAYTYPE_BACK, TRUE);
 		}
+		PLAYER::time = Level::CountToTime(counter_); // クリアした回数を引数に渡して、時間をもらう
+		PLAYER::scaleTime = PLAYER::time / 9.0f;
 		timer_ = PLAYER::time;
+		soundScaleTimer_ = PLAYER::scaleTime;
 	}
 }
 
