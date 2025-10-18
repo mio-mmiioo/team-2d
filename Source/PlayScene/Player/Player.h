@@ -15,4 +15,8 @@ private:
 	float soundTimer_;
 	bool isGoRight_;		// true→右に進んでいる false→左に進んでいる
 	int counter_;			// クリア(線を踏んだ)回数
+
+	// 重力関連
+	bool onGround_; // 地面に足がついている
+	float velocityY_;
 };

@@ -8,6 +8,10 @@ namespace PLAYER {
 	float moveSpeed = 1.0f;
 	int halfSizeX = 24;
 	const int MAX_HP = 2;
+
+	const float GRAVITY = 0.05f;
+	const float JUMP_HEIGHT = 64.0f * 3.0f;//ブロックの高さ基準
+	const float JUMP_V0 = -sqrtf(2.0f * GRAVITY * JUMP_HEIGHT);
 }
 
 Player::Player(VECTOR2 pos)
@@ -22,6 +26,8 @@ Player::Player(VECTOR2 pos)
 	soundTimer_ = 9.0f;   // 9回音を鳴らす、この書き方よくないかも、、、
 	isGoRight_ = true;	  // 最初は右に進む
 	counter_ = 0;
+	onGround_ = false;
+	velocityY_ = 0;
 }
 
 Player::~Player()
@@ -55,6 +61,14 @@ void Player::Update()
 			move.y += 1;
 		}
 
+		if (onGround_ == true)
+		{
+			if (Input::IsKeyDown(KEY_INPUT_SPACE))
+			{
+				velocityY_ = PLAYER::JUMP_V0;
+			}
+		}
+
 		if (Input::IsKeyDown(KEY_INPUT_G)) // 雑にプレイヤーを殺害
 		{
 			hp_ -= 1;
@@ -81,27 +95,49 @@ void Player::Update()
 			push = st->CheckRight(position_ + VECTOR2(PLAYER::halfSizeX, imageSize_.y / 2 - 1)); // 右下
 			position_.x -= push;
 		}
-		if (move.y < 0)
+
+		// 重力をかける
+		position_.y += velocityY_;
+		velocityY_ += PLAYER::GRAVITY;
+		onGround_ = false;
+		
+		if (velocityY_ < 0.0f)
 		{
 			int push = st->CheckUp(position_ + VECTOR2(PLAYER::halfSizeX, -(imageSize_.y / 2))); // 右上
-			position_.y += push;
+			if (push > 0)
+			{
+				velocityY_ = 0.0f;
+				position_.y += push;
+			}
 			push = st->CheckUp(position_ + VECTOR2(-PLAYER::halfSizeX, -(imageSize_.y / 2))); // 左上
-			position_.y += push;
+			if (push > 0)
+			{
+				velocityY_ = 0.0f;
+				position_.y += push;
+			}
 		}
-		if (move.y > 0)
+		else
 		{
-			int push = st->CheckDown(position_ + VECTOR2(PLAYER::halfSizeX, imageSize_.y / 2 - 1)); // 右下
-			position_.y -= push;
-			push = st->CheckDown(position_ + VECTOR2(-PLAYER::halfSizeX, imageSize_.y / 2 - 1)); // 左下
-			position_.y -= push;
+			int push = st->CheckDown(position_ + VECTOR2(PLAYER::halfSizeX, imageSize_.y / 2)); // 右下
+			if (push > 0)
+			{
+				onGround_ = true;
+				velocityY_ = 0.0f;
+				position_.y -= push - 1;
+			}
+			push = st->CheckDown(position_ + VECTOR2(-PLAYER::halfSizeX, imageSize_.y / 2)); // 左下
+			if (push > 0)
+			{
+				onGround_ = true;
+				velocityY_ = 0.0f;
+				position_.y -= push - 1;
+			}
 		}
 	}
 
 
-
 	if (soundTimer_ <= 0)
 	{
-
 		// ステージをクリアできたか確認
 		if (IsClear() == false)
 		{
@@ -152,6 +188,15 @@ void Player::Draw()
 	else
 	{
 		DrawFormatString(100, 160, GetColor(255, 255, 255), "ひだりに進む");
+	}
+
+	if (onGround_)
+	{
+		DrawFormatString(100, 180, GetColor(255, 255, 255), "地面に足がついている");
+	}
+	else
+	{
+		DrawFormatString(100, 180, GetColor(255, 255, 255), "地面に足が付いていない");
 	}
 }
 
