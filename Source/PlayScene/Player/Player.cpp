@@ -20,6 +20,10 @@ namespace PLAYER {
 	float scaleTime = PLAYER::time / 9.0f; // 9回の音をならす
 	float START_TIME = 1.0f;
 	const int SOUND_START_COUNT_MAX = 3;
+
+	// UIの表示位置
+	const int COUNTER_POS_X = Screen::WIDTH - 100;
+	const int COUNTER_POS_Y = 100;
 }
 
 Player::Player(VECTOR2 pos)
@@ -50,6 +54,7 @@ Player::~Player()
 
 void Player::Update()
 {
+	// 開始音がなっている場合
 	if (soundStartCounter_ < PLAYER::SOUND_START_COUNT_MAX)
 	{
 		startTimer_ -= Time::DeltaTime();
@@ -238,7 +243,13 @@ void Player::Draw()
 	DrawFormatString(100, 140, GetColor(255, 255, 255), "HP：%04d", hp_);
 
 	// クリアカウント
-
+	{
+		DrawCircleGauge(PLAYER::COUNTER_POS_X, PLAYER::COUNTER_POS_Y, 100.0f, Image::ui["CircleGauge"], 0, 1.5, 0, 0);
+		SetFontSize(70);
+		int DrawWidth = GetDrawFormatStringWidth("%d", counter_, -1);
+		DrawFormatString(PLAYER::COUNTER_POS_X - (DrawWidth / 2), PLAYER::COUNTER_POS_Y - 35, GetColor(255, 255, 255), "%d", counter_);
+		SetFontSize(20);
+	}
 
 	DrawLine(BASESTAGE::LINE_POS_LEFT, 0, BASESTAGE::LINE_POS_LEFT, Screen::HEIGHT, GetColor(255, 255, 255));
 	DrawLine(BASESTAGE::LINE_POS_RIGHT, 0, BASESTAGE::LINE_POS_RIGHT, Screen::HEIGHT, GetColor(255, 255, 255));

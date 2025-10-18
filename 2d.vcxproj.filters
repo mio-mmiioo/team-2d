@@ -93,6 +93,9 @@
     </ClCompile>
     <ClCompile Include="Source\Sound.cpp" />
     <ClCompile Include="Source\Image.cpp" />
+    <ClCompile Include="Source\PlayScene\Player\Level.cpp">
+      <Filter>PlayScene\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Library\App.h">
@@ -174,5 +177,8 @@
     </ClInclude>
     <ClInclude Include="Source\Sound.h" />
     <ClInclude Include="Source\Image.h" />
+    <ClInclude Include="Source\PlayScene\Player\Level.h">
+      <Filter>PlayScene\Player</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
