@@ -22,5 +22,4 @@ void PlayScene::Update()
 void PlayScene::Draw()
 {
 	DrawString(0, 0, "PLAY SCENE", GetColor(255, 255, 255));
-	DrawString(100, 400, "Push [R]Key To Result", GetColor(255, 255, 255));
 }
