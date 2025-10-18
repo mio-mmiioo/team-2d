@@ -12,7 +12,9 @@ private:
 	void SoundShuttleRun(); // soundTimer_をもとにシャトルランの音を再現する
 
 	int hp_;
-	float soundTimer_;
+	float timer_;			// 9の倍数にして
+	float soundTimer_;		// timer_を9等分したくらいの時間
+	int soundCounter_;		// 音階で鳴らすためのカウンター
 	bool isGoRight_;		// true→右に進んでいる false→左に進んでいる
 	int counter_;			// クリア(線を踏んだ)回数
 

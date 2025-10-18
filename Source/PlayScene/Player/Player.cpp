@@ -24,7 +24,9 @@ Player::Player(VECTOR2 pos)
 	anim_ = { 0, 0 };
 	position_ = pos;
 	hp_ = PLAYER::MAX_HP; // シャトルランは2回失敗したら失格
-	soundTimer_ = 9.0f;   // 9回音を鳴らす、この書き方よくないかも、、、
+	timer_ = 9.0f;   // 9回音を鳴らす、この書き方よくないかも、、、
+	soundTimer_ = 1.0f;
+	soundCounter_ = 0;
 	isGoRight_ = true;	  // 最初は右に進む
 	counter_ = 0;
 	onGround_ = false;
@@ -37,7 +39,7 @@ Player::~Player()
 
 void Player::Update()
 {
-	soundTimer_ -= Time::DeltaTime();
+	timer_ -= Time::DeltaTime();
 	
 	SoundShuttleRun(); // まだ中身書いてない
 
@@ -147,7 +149,7 @@ void Player::Update()
 	}
 
 	// クリア判定など
-	if (soundTimer_ <= 0)
+	if (timer_ <= 0)
 	{
 		// ステージをクリアできたか確認
 		if (IsClear() == false)
@@ -184,12 +186,14 @@ void Player::Update()
 		if (isGoRight_ == true)
 		{
 			isGoRight_ = false;
+			PlaySoundMem(Sound::se[1], DX_PLAYTYPE_BACK, TRUE);
 		}
 		else
 		{
 			isGoRight_ = true;
+			PlaySoundMem(Sound::se[8], DX_PLAYTYPE_BACK, TRUE);
 		}
-		soundTimer_ = 9.0f;
+		timer_ = 9.0f;
 	}
 }
 
@@ -198,7 +202,7 @@ void Player::Draw()
 	Object2D::Draw();
 
 	DrawBox(position_.x - 24, position_.y - 32, position_.x + 24, position_.y + 32, GetColor(255, 0, 0), FALSE); // 当たり判定の線
-	DrawFormatString(100, 100, GetColor(255, 255, 255), "%04f", soundTimer_);
+	DrawFormatString(100, 100, GetColor(255, 255, 255), "%04f", timer_);
 	DrawFormatString(100, 120, GetColor(255, 255, 255), "カウンター：%04d", counter_);
 	DrawFormatString(100, 140, GetColor(255, 255, 255), "HP：%04d", hp_);
 
@@ -249,12 +253,21 @@ bool Player::IsClear()
 
 void Player::SoundShuttleRun()
 {
-	if (isGoRight_ == true) // 1,2,3,...
+	soundTimer_ -= Time::DeltaTime();
+	if (soundTimer_ <= 0)
 	{
-
+		if (isGoRight_ == true) // 1,2,3,...
+		{
+			soundCounter_ += 1;
+			PlaySoundMem(Sound::se[soundCounter_], DX_PLAYTYPE_BACK, TRUE);
+		}
+		else // 8,7,6,...
+		{
+			soundCounter_ -= 1;
+			PlaySoundMem(Sound::se[soundCounter_], DX_PLAYTYPE_BACK, TRUE);
+		}
+		soundTimer_ = soundTimer_ + 1.0f;
 	}
-	else // 8,7,6,...
-	{
 
-	}
+
 }
