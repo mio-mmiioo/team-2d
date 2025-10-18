@@ -13,12 +13,17 @@ private:
 
 	int hp_;
 	float timer_;			// 9の倍数にして
-	float soundTimer_;		// timer_を9等分したくらいの時間
-	int soundCounter_;		// 音階で鳴らすためのカウンター
+	float soundScaleTimer_;		// timer_を9等分したくらいの時間
+	int soundScaleCounter_;		// 音階で鳴らすためのカウンター
 	bool isGoRight_;		// true→右に進んでいる false→左に進んでいる
 	int counter_;			// クリア(線を踏んだ)回数
 
 	// 重力関連
 	bool onGround_; // 地面に足がついている
 	float velocityY_;
+
+	// 開始音
+	float startTimer_; // 開始音を鳴らすタイマー
+	float soundStartTimer_; // 開始音の間隔
+	int soundStartCounter_; // 音を鳴らす回数をカウントする
 };

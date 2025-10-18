@@ -25,12 +25,17 @@ Player::Player(VECTOR2 pos)
 	position_ = pos;
 	hp_ = PLAYER::MAX_HP; // シャトルランは2回失敗したら失格
 	timer_ = 9.0f;   // 9回音を鳴らす、この書き方よくないかも、、、
-	soundTimer_ = 1.0f;
-	soundCounter_ = 0;
+	soundScaleTimer_ = 1.0f;
+	soundScaleCounter_ = 0;
 	isGoRight_ = true;	  // 最初は右に進む
 	counter_ = 0;
 	onGround_ = false;
 	velocityY_ = 0;
+
+	startTimer_ = 1.0f;
+	soundStartTimer_ = 1.0f;
+	soundStartCounter_ = 0;
+	PlaySoundMem(Sound::se["Ready"], DX_PLAYTYPE_BACK, TRUE);
 }
 
 Player::~Player()
@@ -39,6 +44,25 @@ Player::~Player()
 
 void Player::Update()
 {
+	if (soundStartCounter_ < 3)
+	{
+		startTimer_ -= Time::DeltaTime();
+		if (startTimer_ <= 0)
+		{
+			startTimer_ = startTimer_ + 1.0f;
+			soundStartCounter_ += 1;
+			if (soundStartCounter_ <= 2)
+			{
+				PlaySoundMem(Sound::se["Ready"], DX_PLAYTYPE_BACK, TRUE);
+			}
+			else // 3
+			{
+				PlaySoundMem(Sound::se["Go"], DX_PLAYTYPE_BACK, TRUE);
+			}
+		}
+		return;
+	}
+
 	timer_ -= Time::DeltaTime();
 	
 	SoundShuttleRun(); // まだ中身書いてない
@@ -186,12 +210,12 @@ void Player::Update()
 		if (isGoRight_ == true)
 		{
 			isGoRight_ = false;
-			PlaySoundMem(Sound::se[1], DX_PLAYTYPE_BACK, TRUE);
+			PlaySoundMem(Sound::scale[1], DX_PLAYTYPE_BACK, TRUE);
 		}
 		else
 		{
 			isGoRight_ = true;
-			PlaySoundMem(Sound::se[8], DX_PLAYTYPE_BACK, TRUE);
+			PlaySoundMem(Sound::scale[8], DX_PLAYTYPE_BACK, TRUE);
 		}
 		timer_ = 9.0f;
 	}
@@ -253,20 +277,20 @@ bool Player::IsClear()
 
 void Player::SoundShuttleRun()
 {
-	soundTimer_ -= Time::DeltaTime();
-	if (soundTimer_ <= 0)
+	soundScaleTimer_ -= Time::DeltaTime();
+	if (soundScaleTimer_ <= 0)
 	{
 		if (isGoRight_ == true) // 1,2,3,...
 		{
-			soundCounter_ += 1;
-			PlaySoundMem(Sound::se[soundCounter_], DX_PLAYTYPE_BACK, TRUE);
+			soundScaleCounter_ += 1;
+			PlaySoundMem(Sound::scale[soundScaleCounter_], DX_PLAYTYPE_BACK, TRUE);
 		}
 		else // 8,7,6,...
 		{
-			soundCounter_ -= 1;
-			PlaySoundMem(Sound::se[soundCounter_], DX_PLAYTYPE_BACK, TRUE);
+			soundScaleCounter_ -= 1;
+			PlaySoundMem(Sound::scale[soundScaleCounter_], DX_PLAYTYPE_BACK, TRUE);
 		}
-		soundTimer_ = soundTimer_ + 1.0f;
+		soundScaleTimer_ = soundScaleTimer_ + 1.0f;
 	}
 
 
