@@ -9,6 +9,7 @@ namespace Image
 
 void Image::Init()
 {
-	ui["CircleGauge"] = LoadGraph("data/image/circleGauge.png"); // —ÎF‚Ì‰~ƒQ[ƒW
+	ui["CircleGauge1"] = LoadGraph("data/image/circleGauge1.png"); // ŠDF‚Ì‰~ƒQ[ƒW
+	ui["CircleGauge2"] = LoadGraph("data/image/circleGauge2.png"); // —ÎF‚Ì‰~ƒQ[ƒW
 }
 

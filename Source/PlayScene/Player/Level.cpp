@@ -15,4 +15,16 @@ namespace Level {
 			}
 		}
 	}
+	float RateCount(int count)
+	{
+		float rate;
+		for (int i = count_.size() - 1; i >= 0; i--)
+		{
+			if (count >= count_[i])
+			{
+				rate = ((float)count - (float)count_[i]) / ((float)count_[i + 1] - (float)count_[i]) * 100;
+				return rate;
+			}
+		}
+	}
 }

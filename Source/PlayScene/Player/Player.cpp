@@ -248,7 +248,8 @@ void Player::Draw()
 
 	// クリアカウント
 	{
-		DrawCircleGauge(PLAYER::COUNTER_POS_X, PLAYER::COUNTER_POS_Y, 100.0f, Image::ui["CircleGauge"], 0, 1.5, 0, 0);
+		DrawCircleGauge(PLAYER::COUNTER_POS_X, PLAYER::COUNTER_POS_Y, 100.0f, Image::ui["CircleGauge2"], 0.0f, 1.5, 0, 0);
+		DrawCircleGauge(PLAYER::COUNTER_POS_X, PLAYER::COUNTER_POS_Y, 100.0f, Image::ui["CircleGauge1"], Level::RateCount(counter_), 1.5, 0, 0);
 		SetFontSize(70);
 		int DrawWidth = GetDrawFormatStringWidth("%d", counter_, -1);
 		DrawFormatString(PLAYER::COUNTER_POS_X - (DrawWidth / 2), PLAYER::COUNTER_POS_Y - 35, GetColor(255, 255, 255), "%d", counter_);
@@ -281,7 +282,7 @@ void Player::Draw()
 	if (soundStartCounter_ < 3) // 開始音のUI
 	{
 		float rate = (1.0f - startTimer_) * 100;
-		DrawCircleGauge(Screen::WIDTH / 2, Screen::HEIGHT / 2, 100.0f, Image::ui["CircleGauge"], rate, 2.0, 0, 0);
+		DrawCircleGauge(Screen::WIDTH / 2, Screen::HEIGHT / 2, 100.0f, Image::ui["CircleGauge1"], rate, 2.0, 0, 0);
 		SetFontSize(70);
 		int DrawWidth = GetDrawFormatStringWidth("%d", soundStartCounter_, -1);
 		DrawFormatString((Screen::WIDTH - DrawWidth) / 2, Screen::HEIGHT / 2 - 35, GetColor(255, 255, 255), "%d", 3 - soundStartCounter_);
