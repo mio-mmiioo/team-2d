@@ -14,7 +14,7 @@ BaseStage::BaseStage()
 	imageSize_ = VECTOR2(64, 64);
 	isPlayerAlive_ = true; // プレイヤー生きてる
 	SetStageData(&baseStage_, "data/stage/baseStage.csv");
-	CreateStage(1); // 最初のステージを生成
+	SetStageData(&currentStage_, "data/stage/stage00.csv", 4, 4);
 }
 
 BaseStage::~BaseStage()
@@ -39,6 +39,10 @@ void BaseStage::Draw()
 			int c = baseStage_[y][x];
 			if (c == 2) {
 				DrawRectGraph(x * w, y * h, 3 * w, 1 * h, w, h, hImage_, TRUE);
+			}
+			if (c == 3)
+			{
+				DrawRectGraph(x * w, y * h, 0, 1 * h, w, h, hImage_, TRUE);
 			}
 		}
 	}
@@ -88,8 +92,8 @@ int BaseStage::CheckUp(VECTOR2 pos)
 void BaseStage::ChooseStage(int count)
 {
 	// プレイヤーのクリアカウント(走った回数)によって、登場させたいstageを変えたいならここで変える
-
-
+	int nextStageNumber = rand() % 4 + 1;
+	CreateStage(nextStageNumber);
 }
 
 void BaseStage::SetStageData(std::vector<std::vector<int>> *stage, const char* filename)
@@ -119,6 +123,7 @@ void BaseStage::SetStageData(std::vector<std::vector<int>> *stage, const char* f
 
 void BaseStage::SetStageData(std::vector<std::vector<int>>* stage, const char* filename, int startX, int startY)
 {
+	stage->clear();
 	CsvReader* csv = new CsvReader(filename);
 	for (int line = 0; line < csv->GetLines(); line++) {
 		std::vector<int> mapLine;
