@@ -14,6 +14,12 @@ namespace PLAYER {
 	const float GRAVITY = 0.05f;
 	const float JUMP_HEIGHT = 64.0f * 2.0f;//ブロックの高さ基準
 	const float JUMP_V0 = -sqrtf(2.0f * GRAVITY * JUMP_HEIGHT);
+
+	// 音関連
+	float time = 9.0f;
+	float scaleTime = PLAYER::time / 9.0f; // 9回の音をならす
+	float START_TIME = 1.0f;
+	const int SOUND_START_COUNT_MAX = 3;
 }
 
 Player::Player(VECTOR2 pos)
@@ -25,16 +31,15 @@ Player::Player(VECTOR2 pos)
 	anim_ = { 0, 0 };
 	position_ = pos;
 	hp_ = PLAYER::MAX_HP; // シャトルランは2回失敗したら失格
-	timer_ = 9.0f;   // 9回音を鳴らす、この書き方よくないかも、、、
-	soundScaleTimer_ = 1.0f;
+	timer_ = PLAYER::time;
+	soundScaleTimer_ = PLAYER::scaleTime;
 	soundScaleCounter_ = 0;
 	isGoRight_ = true;	  // 最初は右に進む
 	counter_ = 0;
 	onGround_ = false;
 	velocityY_ = 0;
 
-	startTimer_ = 1.0f;
-	soundStartTimer_ = 1.0f;
+	startTimer_ = PLAYER::START_TIME;
 	soundStartCounter_ = 0;
 	PlaySoundMem(Sound::se["Ready"], DX_PLAYTYPE_BACK, TRUE);
 }
@@ -45,20 +50,20 @@ Player::~Player()
 
 void Player::Update()
 {
-	if (soundStartCounter_ < 3)
+	if (soundStartCounter_ < PLAYER::SOUND_START_COUNT_MAX)
 	{
 		startTimer_ -= Time::DeltaTime();
 		if (startTimer_ <= 0)
 		{
-			startTimer_ = startTimer_ + 1.0f;
+			startTimer_ = startTimer_ + PLAYER::START_TIME;
 			soundStartCounter_ += 1;
-			if (soundStartCounter_ <= 2)
-			{
-				PlaySoundMem(Sound::se["Ready"], DX_PLAYTYPE_BACK, TRUE);
-			}
-			else // 3
+			if (soundStartCounter_ == PLAYER::SOUND_START_COUNT_MAX)
 			{
 				PlaySoundMem(Sound::se["Go"], DX_PLAYTYPE_BACK, TRUE);
+			}
+			else
+			{
+				PlaySoundMem(Sound::se["Ready"], DX_PLAYTYPE_BACK, TRUE);
 			}
 		}
 		return;
@@ -218,7 +223,7 @@ void Player::Update()
 			isGoRight_ = true;
 			PlaySoundMem(Sound::scale[8], DX_PLAYTYPE_BACK, TRUE);
 		}
-		timer_ = 9.0f;
+		timer_ = PLAYER::time;
 	}
 }
 
@@ -226,10 +231,13 @@ void Player::Draw()
 {
 	Object2D::Draw();
 
-	DrawBox(position_.x - 24, position_.y - 32, position_.x + 24, position_.y + 32, GetColor(255, 0, 0), FALSE); // 当たり判定の線
+	DrawBox(position_.x - PLAYER::halfSizeX, position_.y - imageSize_.x / 2, position_.x + PLAYER::halfSizeX, 
+		position_.y + imageSize_.x / 2, GetColor(255, 0, 0), FALSE); // 当たり判定の線
 	DrawFormatString(100, 100, GetColor(255, 255, 255), "%04f", timer_);
 	DrawFormatString(100, 120, GetColor(255, 255, 255), "カウンター：%04d", counter_);
 	DrawFormatString(100, 140, GetColor(255, 255, 255), "HP：%04d", hp_);
+
+	// クリアカウント
 
 
 	DrawLine(BASESTAGE::LINE_POS_LEFT, 0, BASESTAGE::LINE_POS_LEFT, Screen::HEIGHT, GetColor(255, 255, 255));
@@ -255,7 +263,7 @@ void Player::Draw()
 		DrawFormatString(100, 180, GetColor(255, 255, 255), "地面に足が付いていない");
 	}
 
-	if (soundStartCounter_ < 3)
+	if (soundStartCounter_ < 3) // 開始音のUI
 	{
 		float rate = (1.0f - startTimer_) * 100;
 		DrawCircleGauge(Screen::WIDTH / 2, Screen::HEIGHT / 2, 100.0f, Image::ui["CircleGauge"], rate, 2.0, 0, 0);
@@ -301,8 +309,6 @@ void Player::SoundShuttleRun()
 			soundScaleCounter_ -= 1;
 			PlaySoundMem(Sound::scale[soundScaleCounter_], DX_PLAYTYPE_BACK, TRUE);
 		}
-		soundScaleTimer_ = soundScaleTimer_ + 1.0f;
+		soundScaleTimer_ = soundScaleTimer_ + PLAYER::scaleTime;
 	}
-
-
 }
