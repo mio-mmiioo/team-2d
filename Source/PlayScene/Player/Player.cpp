@@ -3,6 +3,7 @@
 #include <assert.h>
 #include "../../../Library/Input.h"
 #include "../../Sound.h"
+#include "../../Image.h"
 #include "../../Screen.h" // プレイヤーが画面外に出ていないか判定するのに使用
 
 namespace PLAYER {
@@ -252,6 +253,16 @@ void Player::Draw()
 	else
 	{
 		DrawFormatString(100, 180, GetColor(255, 255, 255), "地面に足が付いていない");
+	}
+
+	if (soundStartCounter_ < 3)
+	{
+		float rate = (1.0f - startTimer_) * 100;
+		DrawCircleGauge(Screen::WIDTH / 2, Screen::HEIGHT / 2, 100.0f, Image::ui["CircleGauge"], rate, 2.0, 0, 0);
+		SetFontSize(70);
+		int DrawWidth = GetDrawFormatStringWidth("%d", soundStartCounter_, -1);
+		DrawFormatString((Screen::WIDTH - DrawWidth) / 2, Screen::HEIGHT / 2 - 35, GetColor(255, 255, 255), "%d", 3 - soundStartCounter_);
+		SetFontSize(20);
 	}
 }
 

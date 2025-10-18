@@ -11,3 +11,4 @@ void Image::Init()
 {
 	ui["CircleGauge"] = LoadGraph("data/image/circleGauge.png"); // —ÎF‚Ì‰~ƒQ[ƒW
 }
+
