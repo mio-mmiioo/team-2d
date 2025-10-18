@@ -135,13 +135,23 @@ void Player::Update()
 		}
 	}
 
-
+	// クリア判定など
 	if (soundTimer_ <= 0)
 	{
 		// ステージをクリアできたか確認
 		if (IsClear() == false)
 		{
 			hp_ -= 1;
+
+			// 本来のゴール地点にワープさせる
+			if (isGoRight_ == true)
+			{
+				position_.x = BASESTAGE::LINE_POS_RIGHT + imageSize_.x;
+			}
+			else
+			{
+				position_.x = BASESTAGE::LINE_POS_LEFT - imageSize_.x;
+			}
 		}
 		else
 		{
