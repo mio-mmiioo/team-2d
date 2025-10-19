@@ -44,6 +44,10 @@ void BaseStage::Draw()
 			{
 				DrawRectGraph(x * w, y * h, 0, 1 * h, w, h, hImage_, TRUE);
 			}
+			if (c == 4)
+			{
+				DrawRectGraph(x * w, y * h, 4 * w, 1 * h, w, h, hImage_, TRUE);
+			}
 		}
 	}
 }
