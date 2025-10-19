@@ -2,6 +2,7 @@
 #include <DxLib.h>
 #include "../../Library/Input.h"
 #include "../Image.h"
+#include "../Screen.h"
 
 TitleScene::TitleScene()
 {
@@ -27,6 +28,11 @@ void TitleScene::Draw()
 	DrawGraph(0, 0, Image::bg["Bg"], TRUE);
 	DrawGraph(0, 0, Image::bg["Film"], TRUE);
 
-	DrawString(0, 0, "TITLE SCENE", GetColor(255,255,255));
-	DrawString(100, 400, "Push [P]Key To Play", GetColor(255, 255, 255));
+	SetFontSize(70);
+	int DrawWidth = GetDrawFormatStringWidth("TITLE", -1);
+	DrawFormatString((Screen::WIDTH - DrawWidth) / 2, Screen::HEIGHT / 2 - 35, GetColor(255, 255, 255), "TITLE");
+	SetFontSize(40);
+	DrawWidth = GetDrawFormatStringWidth("Push [P]Key To Play", -1);
+	DrawFormatString((Screen::WIDTH - DrawWidth) / 2, Screen::HEIGHT - 100, GetColor(255, 255, 255), "Push [P]Key To Play");
+	SetFontSize(20);
 }
