@@ -10,6 +10,7 @@ public:
 private:
 	bool IsClear();			// ステージをクリアできたか 時間内に線を踏むことができたか
 	void SoundShuttleRun(); // soundTimer_をもとにシャトルランの音を再現する
+	void SetSoundTime();
 
 	int hp_;
 	float timer_;			// 9の倍数にして

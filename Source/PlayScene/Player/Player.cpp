@@ -64,6 +64,11 @@ Player::~Player()
 
 void Player::Update()
 {
+	if (PLAYER::time != Level::CountToTime(counter_))
+	{
+		SetSoundTime();
+	}
+
 	// 開始音がなっている場合
 	if (soundStartCounter_ < PLAYER::SOUND_START_COUNT_MAX)
 	{
@@ -249,10 +254,7 @@ void Player::Update()
 			isGoRight_ = true;
 			PlaySoundMem(Sound::scale[8], DX_PLAYTYPE_BACK, TRUE);
 		}
-		PLAYER::time = Level::CountToTime(counter_); // クリアした回数を引数に渡して、時間をもらう
-		PLAYER::scaleTime = PLAYER::time / 9.0f;
-		timer_ = PLAYER::time;
-		soundScaleTimer_ = PLAYER::scaleTime;
+		SetSoundTime(); // カウントの数に合わせて時間をセット
 	}
 
 	if (animTimer_ <= 0)
@@ -269,11 +271,6 @@ void Player::Update()
 void Player::Draw()
 {
 	Object2D::Draw();
-
-	DrawBox(position_.x - PLAYER::halfSizeX, position_.y - imageSize_.x / 2, position_.x + PLAYER::halfSizeX, 
-		position_.y + imageSize_.x / 2, GetColor(255, 0, 0), FALSE); // 当たり判定の線
-	//DrawFormatString(100, 100, GetColor(255, 255, 255), "%04f", timer_);
-	//DrawFormatString(100, 140, GetColor(255, 255, 255), "HP：%04d", hp_);
 
 	// クリアカウント・レベルアップゲージ
 	{
@@ -299,8 +296,8 @@ void Player::Draw()
 		}
 	}
 
-	DrawLine(BASESTAGE::LINE_POS_LEFT, 0, BASESTAGE::LINE_POS_LEFT, Screen::HEIGHT, GetColor(255, 255, 255));
-	DrawLine(BASESTAGE::LINE_POS_RIGHT, 0, BASESTAGE::LINE_POS_RIGHT, Screen::HEIGHT, GetColor(255, 255, 255));
+	DrawLine(BASESTAGE::LINE_POS_LEFT, 0, BASESTAGE::LINE_POS_LEFT, Screen::HEIGHT, GetColor(255, 255, 255), 5);
+	DrawLine(BASESTAGE::LINE_POS_RIGHT, 0, BASESTAGE::LINE_POS_RIGHT, Screen::HEIGHT, GetColor(255, 255, 255), 5);
 
 	if (isGoRight_)
 	{
@@ -311,7 +308,7 @@ void Player::Draw()
 		DrawLine(BASESTAGE::LINE_POS_LEFT, 0, BASESTAGE::LINE_POS_LEFT, Screen::HEIGHT, GetColor(255, 0, 0));
 	}
 
-	if (soundStartCounter_ < 3) // 開始音のUI
+	if (soundStartCounter_ < PLAYER::SOUND_START_COUNT_MAX) // 開始音のUI
 	{
 		float rate = (1.0f - startTimer_) * 100;
 		DrawCircleGauge(Screen::WIDTH / 2, Screen::HEIGHT / 2, 100.0f, Image::ui["CircleGauge1"], rate, 2.0, 0, 0);
@@ -359,4 +356,12 @@ void Player::SoundShuttleRun()
 		}
 		soundScaleTimer_ = soundScaleTimer_ + PLAYER::scaleTime;
 	}
+}
+
+void Player::SetSoundTime()
+{
+	PLAYER::time = Level::CountToTime(counter_); // クリアした回数を引数に渡して、時間をもらう
+	PLAYER::scaleTime = PLAYER::time / 9.0f;
+	timer_ = PLAYER::time;
+	soundScaleTimer_ = PLAYER::scaleTime;
 }
