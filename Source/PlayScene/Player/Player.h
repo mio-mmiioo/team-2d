@@ -25,4 +25,7 @@ private:
 	// 開始音
 	float startTimer_;		// 開始音を鳴らすタイマー
 	int soundStartCounter_;	// 音を鳴らす回数をカウントする
+
+	// アニメーション関連
+	float animTimer_;
 };

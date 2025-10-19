@@ -22,6 +22,9 @@ namespace PLAYER {
 	float START_TIME = 1.0f;
 	const int SOUND_START_COUNT_MAX = 3;
 
+	// アニメーション
+	const float ANIM_TIME = 0.1f;
+
 	// UIの表示位置
 	const int COUNTER_POS_X = Screen::WIDTH - 100;
 	const int COUNTER_POS_Y = 100;
@@ -36,7 +39,7 @@ Player::Player(VECTOR2 pos)
 	assert(hImage_ > 0);
 
 	imageSize_ = VECTOR2(64, 64);
-	anim_ = { 0, 0 };
+	anim_ = { 4, 3 };
 	position_ = pos;
 	hp_ = PLAYER::MAX_HP; // シャトルランは2回失敗したら失格
 	timer_ = PLAYER::time;
@@ -49,6 +52,9 @@ Player::Player(VECTOR2 pos)
 
 	startTimer_ = PLAYER::START_TIME;
 	soundStartCounter_ = 0;
+
+	animTimer_ = PLAYER::ANIM_TIME;
+
 	PlaySoundMem(Sound::se["Ready"], DX_PLAYTYPE_BACK, TRUE);
 }
 
@@ -79,7 +85,7 @@ void Player::Update()
 	}
 
 	timer_ -= Time::DeltaTime();
-	
+
 	SoundShuttleRun(); // まだ中身書いてない
 
 	VECTOR2 move;
@@ -89,10 +95,21 @@ void Player::Update()
 		if (Input::IsKeyKeep(KEY_INPUT_D))
 		{
 			move.x += 1;
+			anim_.y = 3;
+
+			if (onGround_ == true)
+			{
+				animTimer_ -= Time::DeltaTime();
+			}
 		}
-		if (Input::IsKeyKeep(KEY_INPUT_A))
+		else if (Input::IsKeyKeep(KEY_INPUT_A))
 		{
 			move.x -= 1;
+			anim_.y = 1;
+			if (onGround_ == true)
+			{
+				animTimer_ -= Time::DeltaTime();
+			}
 		}
 
 		if (onGround_ == true)
@@ -236,6 +253,16 @@ void Player::Update()
 		PLAYER::scaleTime = PLAYER::time / 9.0f;
 		timer_ = PLAYER::time;
 		soundScaleTimer_ = PLAYER::scaleTime;
+	}
+
+	if (animTimer_ <= 0)
+	{
+		anim_.x += 1;
+		if (anim_.x >= 7)
+		{
+			anim_.x = 4;
+		}
+		animTimer_ = animTimer_ + PLAYER::ANIM_TIME;
 	}
 }
 
