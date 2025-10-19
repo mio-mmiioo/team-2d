@@ -16,5 +16,6 @@ void Image::Init()
 	ui["Hp2"] = LoadGraph("data/image/hp2.png"); // ’†‰›‚ªÔF‚Ì‰~
 
 	bg["Bg"] = LoadGraph("data/image/bg.jpg");
+	bg["Film"] = LoadGraph("data/image/film.png");
 }
 

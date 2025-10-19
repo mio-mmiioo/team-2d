@@ -25,6 +25,8 @@ void TitleScene::Update()
 void TitleScene::Draw()
 {
 	DrawGraph(0, 0, Image::bg["Bg"], TRUE);
+	DrawGraph(0, 0, Image::bg["Film"], TRUE);
+
 	DrawString(0, 0, "TITLE SCENE", GetColor(255,255,255));
 	DrawString(100, 400, "Push [P]Key To Play", GetColor(255, 255, 255));
 }
