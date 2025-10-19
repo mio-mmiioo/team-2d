@@ -2,6 +2,7 @@
 #include <DxLib.h>
 #include "Stage/BaseStage.h"
 #include "../../Library/Input.h"
+#include "../Image.h"
 
 PlayScene::PlayScene()
 {
@@ -21,5 +22,6 @@ void PlayScene::Update()
 
 void PlayScene::Draw()
 {
+	DrawGraph(0, 0, Image::bg["Bg"], TRUE);
 	DrawString(0, 0, "PLAY SCENE", GetColor(255, 255, 255));
 }
