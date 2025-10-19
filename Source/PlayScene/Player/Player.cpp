@@ -25,6 +25,9 @@ namespace PLAYER {
 	// UIの表示位置
 	const int COUNTER_POS_X = Screen::WIDTH - 100;
 	const int COUNTER_POS_Y = 100;
+	const int HP_POS_X = 20;
+	const int HP_POS_Y = 20;
+	const int HP_IMAGE_WIDTH = 100;
 }
 
 Player::Player(VECTOR2 pos)
@@ -40,7 +43,7 @@ Player::Player(VECTOR2 pos)
 	soundScaleTimer_ = PLAYER::scaleTime;
 	soundScaleCounter_ = 0;
 	isGoRight_ = true;	  // 最初は右に進む
-	counter_ = 5;
+	counter_ = 0;
 	onGround_ = false;
 	velocityY_ = 0;
 
@@ -242,11 +245,10 @@ void Player::Draw()
 
 	DrawBox(position_.x - PLAYER::halfSizeX, position_.y - imageSize_.x / 2, position_.x + PLAYER::halfSizeX, 
 		position_.y + imageSize_.x / 2, GetColor(255, 0, 0), FALSE); // 当たり判定の線
-	DrawFormatString(100, 100, GetColor(255, 255, 255), "%04f", timer_);
-	DrawFormatString(100, 120, GetColor(255, 255, 255), "カウンター：%04d", counter_);
-	DrawFormatString(100, 140, GetColor(255, 255, 255), "HP：%04d", hp_);
+	//DrawFormatString(100, 100, GetColor(255, 255, 255), "%04f", timer_);
+	//DrawFormatString(100, 140, GetColor(255, 255, 255), "HP：%04d", hp_);
 
-	// クリアカウント
+	// クリアカウント・レベルアップゲージ
 	{
 		DrawCircleGauge(PLAYER::COUNTER_POS_X, PLAYER::COUNTER_POS_Y, 100.0f, Image::ui["CircleGauge2"], 0.0f, 1.5, 0, 0);
 		DrawCircleGauge(PLAYER::COUNTER_POS_X, PLAYER::COUNTER_POS_Y, 100.0f, Image::ui["CircleGauge1"], Level::RateCount(counter_), 1.5, 0, 0);
@@ -256,27 +258,30 @@ void Player::Draw()
 		SetFontSize(20);
 	}
 
+	// HPの表示
+	{
+		DrawGraph(PLAYER::HP_POS_X, PLAYER::HP_POS_Y, Image::ui["Hp2"], TRUE);
+		
+		if (hp_ >= 2)
+		{
+			DrawGraph(PLAYER::HP_POS_X * 2 + PLAYER::HP_IMAGE_WIDTH, PLAYER::HP_POS_Y, Image::ui["Hp2"], TRUE);
+		}
+		else
+		{
+			DrawGraph(PLAYER::HP_POS_X * 2 + PLAYER::HP_IMAGE_WIDTH, PLAYER::HP_POS_Y, Image::ui["Hp1"], TRUE);
+		}
+	}
+
 	DrawLine(BASESTAGE::LINE_POS_LEFT, 0, BASESTAGE::LINE_POS_LEFT, Screen::HEIGHT, GetColor(255, 255, 255));
 	DrawLine(BASESTAGE::LINE_POS_RIGHT, 0, BASESTAGE::LINE_POS_RIGHT, Screen::HEIGHT, GetColor(255, 255, 255));
 
 	if (isGoRight_)
 	{
-		DrawFormatString(100, 160, GetColor(255, 255, 255), "みぎに進む");
 		DrawLine(BASESTAGE::LINE_POS_RIGHT, 0, BASESTAGE::LINE_POS_RIGHT, Screen::HEIGHT, GetColor(255, 0, 0));
 	}
 	else
 	{
-		DrawFormatString(100, 160, GetColor(255, 255, 255), "ひだりに進む");
 		DrawLine(BASESTAGE::LINE_POS_LEFT, 0, BASESTAGE::LINE_POS_LEFT, Screen::HEIGHT, GetColor(255, 0, 0));
-	}
-
-	if (onGround_)
-	{
-		DrawFormatString(100, 180, GetColor(255, 255, 255), "地面に足がついている");
-	}
-	else
-	{
-		DrawFormatString(100, 180, GetColor(255, 255, 255), "地面に足が付いていない");
 	}
 
 	if (soundStartCounter_ < 3) // 開始音のUI
