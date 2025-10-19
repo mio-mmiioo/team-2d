@@ -23,4 +23,5 @@ void Sound::Init()
 	// Œø‰Ê‰¹
 	se["Ready"] = LoadSoundMem("data/sound/ready.mp3");
 	se["Go"] = LoadSoundMem("data/sound/go.mp3");
+	se["Clap"] = LoadSoundMem("data/sound/clap.mp3"); // ”è
 }
