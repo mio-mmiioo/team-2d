@@ -37,9 +37,7 @@ void Data::SetPlayer()
 void Data::SetLevelAndTime()
 {
 	CsvReader* csv = new CsvReader("data/level.csv");
-	for (int i = 0; i < csv->GetLines(); i++) {
-		int level = csv->GetInt(i, 0);
-
+	for (int i = 1; i < csv->GetLines(); i++) {
 		levelUpCount.push_back(csv->GetInt(i, 1));
 		levelTime.push_back(csv->GetFloat(i, 2));
 	}
