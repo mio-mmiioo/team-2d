@@ -93,11 +93,11 @@ int BaseStage::CheckUp(VECTOR2 pos)
 	return imageSize_.y - dy;
 }
 
-void BaseStage::ChooseStage(int count)
+void BaseStage::ChooseStage(int level)
 {
 	// プレイヤーのクリアカウント(走った回数)によって、登場させたいstageを変えたいならここで変える
 	int nextStageNumber = rand() % 4 + 1;
-	CreateStage(nextStageNumber);
+	CreateStage(nextStageNumber, level);
 }
 
 void BaseStage::SetStageData(std::vector<std::vector<int>> *stage, const char* filename)
@@ -152,9 +152,9 @@ void BaseStage::SetStageData(std::vector<std::vector<int>>* stage, const char* f
 	}
 }
 
-void BaseStage::CreateStage(int number)
+void BaseStage::CreateStage(int number, int level)
 {
-	sprintf_s<64>(BASESTAGE::filename, "data/stage/stage%03d.csv", number);
+	sprintf_s<64>(BASESTAGE::filename, "data/stage/stage%03.csv", number);
 	SetStageData(&currentStage_, BASESTAGE::filename, 4, 4);
 }
 

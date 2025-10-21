@@ -14,6 +14,17 @@ float Level::CountToTime(int count)
 	}
 }
 
+int Level::CountToLevel(int count)
+{
+	for (int i = Data::levelUpCount.size() - 1; i >= 0; i--)
+	{
+		if (count >= Data::levelUpCount[i])
+		{
+			return i;
+		}
+	}
+}
+
 float Level::RateCount(int count)
 {
 	float rate;

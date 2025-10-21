@@ -232,7 +232,7 @@ void Player::Update()
 			DestroyMe();
 		}
 		// ステージをセット
-		st->ChooseStage(0); // 現段階では機能してない
+		st->ChooseStage(Level::CountToLevel(counter_));
 
 		// 向かう方向を変更
 		if (isGoRight_ == true)

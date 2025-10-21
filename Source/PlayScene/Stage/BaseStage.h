@@ -20,7 +20,7 @@ public:
 	int CheckDown(VECTOR2 pos);
 	int CheckUp(VECTOR2 pos);
 
-	void ChooseStage(int count); // ランダムな値を入手して次のステージを生成するための変数
+	void ChooseStage(int level); // ランダムな値を入手して次のステージを生成するための変数
 
 	// ゲームオーバー条件関連
 	void SetPlayerAlive(bool isAlive) { isPlayerAlive_ = isAlive; }
@@ -28,7 +28,7 @@ public:
 private:
 	void SetStageData(std::vector<std::vector<int>> *stage, const char* filename); // ステージデータをセットするための関数
 	void SetStageData(std::vector<std::vector<int>>* stage, const char* filename, int startX, int startY);
-	void CreateStage(int number);					// ステージを作成する
+	void CreateStage(int number, int level);					// ステージを作成する
 	bool IsWall(VECTOR2 pos);						// 壁かどうか
 
 	std::vector<std::vector<int>> baseStage_;		// ステージの両端の部分
