@@ -13,8 +13,7 @@ namespace PLAYER {
 	const int MAX_HP = 2;
 
 	// 音関連
-	float time = 9.0f;
-	float scaleTime = PLAYER::time / 9.0f; // 9回の音をならす
+	float SOUND_COUNT_MAX = 9.0f; // 9回音が鳴る
 	float START_TIME = 1.0f;
 	const int SOUND_START_COUNT_MAX = 3;
 
@@ -31,8 +30,8 @@ Player::Player(VECTOR2 pos)
 	anim_ = { 4, 3 }; // 画像の位置
 	position_ = pos;
 	hp_ = PLAYER::MAX_HP; // シャトルランは2回失敗したら失格
-	timer_ = PLAYER::time;
-	soundScaleTimer_ = PLAYER::scaleTime;
+	timer_ = Data::levelTime[0];
+	soundScaleTimer_ = Data::levelTime[0] / 9.0f;
 	soundScaleCounter_ = 0;
 	isGoRight_ = true;	  // 最初は右に進む
 	counter_ = 0;
@@ -56,10 +55,10 @@ Player::~Player()
 
 void Player::Update()
 {
-	if (PLAYER::time != Level::CountToTime(counter_))
-	{
-		SetSoundTime();
-	}
+	//if (PLAYER::time != Level::CountToTime(counter_))
+	//{
+	//	SetSoundTime();
+	//}
 
 	// 開始音がなっている場合
 	if (soundStartCounter_ < PLAYER::SOUND_START_COUNT_MAX)
@@ -347,14 +346,12 @@ void Player::SoundShuttleRun()
 			soundScaleCounter_ -= 1;
 			PlaySoundMem(Sound::scale[soundScaleCounter_], DX_PLAYTYPE_BACK, TRUE);
 		}
-		soundScaleTimer_ = soundScaleTimer_ + PLAYER::scaleTime;
+		soundScaleTimer_ = soundScaleTimer_ + (Level::CountToTime(counter_) / PLAYER::SOUND_COUNT_MAX);
 	}
 }
 
 void Player::SetSoundTime()
 {
-	PLAYER::time = Level::CountToTime(counter_); // クリアした回数を引数に渡して、時間をもらう
-	PLAYER::scaleTime = PLAYER::time / 9.0f;
-	timer_ = PLAYER::time;
-	soundScaleTimer_ = PLAYER::scaleTime;
+	timer_ = Level::CountToTime(counter_);
+	soundScaleTimer_ = Level::CountToTime(counter_) / PLAYER::SOUND_COUNT_MAX;
 }
