@@ -20,13 +20,6 @@ namespace PLAYER {
 
 	// アニメーション
 	const float ANIM_TIME = 0.1f;
-
-	// UIの表示位置
-	const int COUNTER_POS_X = Screen::WIDTH - 100;
-	const int COUNTER_POS_Y = 100;
-	const int HP_POS_X = 20;
-	const int HP_POS_Y = 20;
-	const int HP_IMAGE_WIDTH = 100;
 }
 
 Player::Player(VECTOR2 pos)
@@ -274,25 +267,25 @@ void Player::Draw()
 
 	// クリアカウント・レベルアップゲージ
 	{
-		DrawCircleGauge(PLAYER::COUNTER_POS_X, PLAYER::COUNTER_POS_Y, 100.0f, Image::ui["CircleGauge2"], 0.0f, 1.5, 0, 0);
-		DrawCircleGauge(PLAYER::COUNTER_POS_X, PLAYER::COUNTER_POS_Y, 100.0f, Image::ui["CircleGauge1"], Level::RateCount(counter_), 1.5, 0, 0);
+		DrawCircleGauge((int)Data::ui["Counter"].x, (int)Data::ui["Counter"].y, 100.0f, Image::ui["CircleGauge2"], 0.0f, 1.5, 0, 0);
+		DrawCircleGauge((int)Data::ui["Counter"].x, (int)Data::ui["Counter"].y, 100.0f, Image::ui["CircleGauge1"], Level::RateCount(counter_), 1.5, 0, 0);
 		SetFontSize(70);
 		int DrawWidth = GetDrawFormatStringWidth("%d", counter_, -1);
-		DrawFormatString(PLAYER::COUNTER_POS_X - (DrawWidth / 2), PLAYER::COUNTER_POS_Y - 35, GetColor(255, 255, 255), "%d", counter_);
+		DrawFormatString((int)Data::ui["Counter"].x - (DrawWidth / 2), (int)Data::ui["Counter"].y - 35, GetColor(255, 255, 255), "%d", counter_);
 		SetFontSize(20);
 	}
 
 	// HPの表示
 	{
-		DrawGraph(PLAYER::HP_POS_X, PLAYER::HP_POS_Y, Image::ui["Hp2"], TRUE);
+		DrawGraph((int)Data::ui["HP1"].x, (int)Data::ui["HP1"].y, Image::ui["Hp2"], TRUE);
 		
 		if (hp_ >= 2)
 		{
-			DrawGraph(PLAYER::HP_POS_X * 2 + PLAYER::HP_IMAGE_WIDTH, PLAYER::HP_POS_Y, Image::ui["Hp2"], TRUE);
+			DrawGraph((int)Data::ui["HP2"].x, (int)Data::ui["HP2"].y, Image::ui["Hp2"], TRUE);
 		}
 		else
 		{
-			DrawGraph(PLAYER::HP_POS_X * 2 + PLAYER::HP_IMAGE_WIDTH, PLAYER::HP_POS_Y, Image::ui["Hp1"], TRUE);
+			DrawGraph((int)Data::ui["HP2"].x, (int)Data::ui["HP2"].y, Image::ui["Hp1"], TRUE);
 		}
 	}
 
