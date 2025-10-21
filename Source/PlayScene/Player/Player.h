@@ -22,7 +22,7 @@ private:
 	// 重力関連
 	bool onGround_;			// 地面に足がついている
 	float velocityY_;
-	float jumpV0;	// ジャンプの高さ
+	float jumpV0;			// ジャンプの高さ
 
 	// 開始音
 	float startTimer_;		// 開始音を鳴らすタイマー

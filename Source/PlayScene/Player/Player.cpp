@@ -31,7 +31,7 @@ Player::Player(VECTOR2 pos)
 	position_ = pos;
 	hp_ = PLAYER::MAX_HP; // シャトルランは2回失敗したら失格
 	timer_ = Data::levelTime[0];
-	soundScaleTimer_ = Data::levelTime[0] / 9.0f;
+	soundScaleTimer_ = Data::levelTime[0] / PLAYER::SOUND_COUNT_MAX;
 	soundScaleCounter_ = 0;
 	isGoRight_ = true;	  // 最初は右に進む
 	counter_ = 0;
