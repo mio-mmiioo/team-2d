@@ -6,15 +6,11 @@
 #include "../../Image.h"
 #include "../../Screen.h" // プレイヤーが画面外に出ていないか判定するのに使用
 #include "Level.h"
+#include "../../Data.h"
 
 namespace PLAYER {
-	float moveSpeed = 1.0f;
 	int halfSizeX = 24;
 	const int MAX_HP = 2;
-
-	const float GRAVITY = 0.05f;
-	const float JUMP_HEIGHT = 64.0f * 2.0f;//ブロックの高さ基準
-	const float JUMP_V0 = -sqrtf(2.0f * GRAVITY * JUMP_HEIGHT);
 
 	// 音関連
 	float time = 9.0f;
@@ -39,7 +35,7 @@ Player::Player(VECTOR2 pos)
 	assert(hImage_ > 0);
 
 	imageSize_ = VECTOR2(64, 64);
-	anim_ = { 4, 3 };
+	anim_ = { 4, 3 }; // 画像の位置
 	position_ = pos;
 	hp_ = PLAYER::MAX_HP; // シャトルランは2回失敗したら失格
 	timer_ = PLAYER::time;
@@ -47,8 +43,11 @@ Player::Player(VECTOR2 pos)
 	soundScaleCounter_ = 0;
 	isGoRight_ = true;	  // 最初は右に進む
 	counter_ = 0;
+	
+	//重力関連
 	onGround_ = false;
 	velocityY_ = 0;
+	jumpV0 = -sqrtf(2.0f * Data::player["Gravity"] * Data::player["JumpHeight"]);
 
 	startTimer_ = PLAYER::START_TIME;
 	soundStartCounter_ = 0;
@@ -121,7 +120,7 @@ void Player::Update()
 		{
 			if (Input::IsKeyDown(KEY_INPUT_SPACE))
 			{
-				velocityY_ = PLAYER::JUMP_V0;
+				velocityY_ = jumpV0;
 			}
 		}
 
@@ -131,7 +130,7 @@ void Player::Update()
 		}
 	}
 
-	position_ = position_ + (move * PLAYER::moveSpeed);
+	position_ = position_ + (move * Data::player["MoveSpeed"]);
 
 	BaseStage* st = FindGameObject<BaseStage>();
 
@@ -157,7 +156,7 @@ void Player::Update()
 
 		// 重力をかける
 		position_.y += velocityY_;
-		velocityY_ += PLAYER::GRAVITY;
+		velocityY_ += Data::player["Gravity"];
 		onGround_ = false;
 		
 		// 上下のめり込み判定
@@ -257,6 +256,7 @@ void Player::Update()
 		SetSoundTime(); // カウントの数に合わせて時間をセット
 	}
 
+	// アニメーション
 	if (animTimer_ <= 0)
 	{
 		anim_.x += 1;

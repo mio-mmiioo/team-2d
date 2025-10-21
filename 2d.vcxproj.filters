@@ -96,6 +96,7 @@
     <ClCompile Include="Source\PlayScene\Player\Level.cpp">
       <Filter>PlayScene\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Data.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Library\App.h">
@@ -180,5 +181,6 @@
     <ClInclude Include="Source\PlayScene\Player\Level.h">
       <Filter>PlayScene\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Data.h" />
   </ItemGroup>
 </Project>

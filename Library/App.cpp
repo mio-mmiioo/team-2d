@@ -4,14 +4,17 @@
 #include "Time.h"
 #include <DxLib.h>
 #include "Input.h"
+#include "../Source/Data.h"
 #include "../Source/Sound.h"
 #include "../Source/Image.h"
+
 
 void AppInit()
 {
 	ObjectManager::Init();
 	SceneManager::Init();
 	Time::Init();
+	Data::Init();
 	Sound::Init();
 	Image::Init();
 }
