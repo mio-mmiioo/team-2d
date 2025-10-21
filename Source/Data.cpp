@@ -4,6 +4,8 @@
 namespace Data {
 	std::map<std::string, float> player;
 	std::map<std::string, float> ui;
+	std::vector<int> levelUpCount;
+	std::vector<float> levelTime;
 
 	void SetPlayer();
 	void SetLevelAndTime();
@@ -37,7 +39,8 @@ void Data::SetLevelAndTime()
 	CsvReader* csv = new CsvReader("data/level.csv");
 	for (int i = 0; i < csv->GetLines(); i++) {
 		int level = csv->GetInt(i, 0);
-		levelUpCount[level - 1] = csv->GetInt(i, 1);
-		levelTime[level - 1] = csv->GetFloat(i, 2);
+
+		levelUpCount.push_back(csv->GetInt(i, 1));
+		levelTime.push_back(csv->GetFloat(i, 2));
 	}
 }
