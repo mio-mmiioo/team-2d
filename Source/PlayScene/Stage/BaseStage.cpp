@@ -14,7 +14,7 @@ BaseStage::BaseStage()
 	imageSize_ = VECTOR2(64, 64);
 	isPlayerAlive_ = true; // ƒvƒŒƒCƒ„[¶‚«‚Ä‚é
 	SetStageData(&baseStage_, "data/stage/baseStage.csv");
-	SetStageData(&currentStage_, "data/stage/stage00.csv", 4, 4);
+	SetStageData(&currentStage_, "data/stage/stage000.csv", 4, 4);
 }
 
 BaseStage::~BaseStage()
@@ -154,7 +154,7 @@ void BaseStage::SetStageData(std::vector<std::vector<int>>* stage, const char* f
 
 void BaseStage::CreateStage(int number)
 {
-	sprintf_s<64>(BASESTAGE::filename, "data/stage/stage%02d.csv", number);
+	sprintf_s<64>(BASESTAGE::filename, "data/stage/stage%03d.csv", number);
 	SetStageData(&currentStage_, BASESTAGE::filename, 4, 4);
 }
 
