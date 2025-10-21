@@ -90,6 +90,8 @@ void Player::Update()
 
 	timer_ -= Time::DeltaTime();
 
+	Level::SoundUp();
+
 	SoundShuttleRun(); // まだ中身書いてない
 
 	VECTOR2 move;
@@ -252,6 +254,10 @@ void Player::Update()
 		{
 			isGoRight_ = true;
 			PlaySoundMem(Sound::scale[8], DX_PLAYTYPE_BACK, TRUE);
+		}
+		if (Level::RateCount(counter_))
+		{
+			Level::SoundUp();
 		}
 		SetSoundTime(); // カウントの数に合わせて時間をセット
 	}
