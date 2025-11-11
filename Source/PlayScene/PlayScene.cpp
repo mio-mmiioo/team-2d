@@ -19,6 +19,6 @@ void PlayScene::Update()
 
 void PlayScene::Draw()
 {
-	DrawGraph(0, 0, Image::bg["Bg"], TRUE);
-	DrawGraph(0, 0, Image::bg["Film"], TRUE);
+	//DrawGraph(0, 0, Image::bg["Bg"], TRUE);
+	//DrawGraph(0, 0, Image::bg["Film"], TRUE);
 }

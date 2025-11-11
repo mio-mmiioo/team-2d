@@ -25,8 +25,8 @@ void TitleScene::Update()
 
 void TitleScene::Draw()
 {
-	DrawGraph(0, 0, Image::bg["Bg"], TRUE);
-	DrawGraph(0, 0, Image::bg["Film"], TRUE);
+	//DrawGraph(0, 0, Image::bg["Bg"], TRUE);
+	//DrawGraph(0, 0, Image::bg["Film"], TRUE);
 
 	SetFontSize(70);
 	int DrawWidth = GetDrawFormatStringWidth("TITLE", -1);

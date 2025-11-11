@@ -5,6 +5,8 @@
 
 namespace BASESTAGE {
 	char filename[64]; // 生成するcurrentStage_のファイル名
+	const int ADD_X = 4;
+	const int ADD_Y = 4;
 }
 
 BaseStage::BaseStage()
@@ -14,7 +16,7 @@ BaseStage::BaseStage()
 	imageSize_ = VECTOR2(64, 64);
 	isPlayerAlive_ = true; // プレイヤー生きてる
 	SetStageData(&baseStage_, "data/stage/baseStage.csv");
-	SetStageData(&currentStage_, "data/stage/stage000.csv", 4, 4);
+	SetStageData(&currentStage_, "data/stage/stage000.csv", BASESTAGE::ADD_X, BASESTAGE::ADD_Y);
 }
 
 BaseStage::~BaseStage()
@@ -38,15 +40,15 @@ void BaseStage::Draw()
 		for (int x = 0; x < baseStage_[y].size(); x++) {
 			int c = baseStage_[y][x];
 			if (c == 2) {
-				DrawRectGraph(x * w, y * h, 3 * w, 1 * h, w, h, hImage_, TRUE);
+				DrawRectGraph(x * w, y * h - BASESTAGE::ADD_Y * h, 3 * w, 1 * h, w, h, hImage_, TRUE);
 			}
 			if (c == 3)
 			{
-				DrawRectGraph(x * w, y * h, 0, 1 * h, w, h, hImage_, TRUE);
+				DrawRectGraph(x * w, y * h - BASESTAGE::ADD_Y * h, 0, 1 * h, w, h, hImage_, TRUE);
 			}
 			if (c == 4)
 			{
-				DrawRectGraph(x * w, y * h, 4 * w, 1 * h, w, h, hImage_, TRUE);
+				DrawRectGraph(x * w, y * h - BASESTAGE::ADD_Y * h, 4 * w, 1 * h, w, h, hImage_, TRUE);
 			}
 		}
 	}
@@ -142,7 +144,7 @@ void BaseStage::SetStageData(std::vector<std::vector<int>>* stage, const char* f
 	for (int y = 0; y < stage->size(); y++) {
 		for (int x = 0; x < (*stage)[y].size(); x++) {
 			int c = (*stage)[y][x];
-			baseStage_[y][x + startX] = (*stage)[y][x];
+			baseStage_[y + startY][x + startX] = (*stage)[y][x];
 			if (c == 1) {
 				int px = x * imageSize_.x + imageSize_.x / 2.0f;
 				int py = y * imageSize_.y + imageSize_.y / 2.0f;
