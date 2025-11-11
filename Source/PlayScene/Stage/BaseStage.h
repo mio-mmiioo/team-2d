@@ -1,10 +1,13 @@
 #pragma once
 #include "../../../Library/Object2D.h"
 #include <vector>
+#include "../../Screen.h"
 
 namespace BASESTAGE {
-	const int LINE_POS_LEFT  = 256;  // ¶‚Ìü
-	const int LINE_POS_RIGHT = 1024; // ‰E‚Ìü
+	const int ADD_X = 4;
+	const int ADD_Y = 4;
+	const int LINE_POS_LEFT  = 0 + 64 * ADD_X;  // ¶‚Ìü
+	const int LINE_POS_RIGHT = Screen::WIDTH - (64 * ADD_X); // ‰E‚Ìü
 }
 
 class BaseStage : public Object2D {

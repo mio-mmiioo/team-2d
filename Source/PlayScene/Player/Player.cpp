@@ -212,10 +212,12 @@ void Player::Update()
 			if (isGoRight_ == true)
 			{
 				position_.x = BASESTAGE::LINE_POS_RIGHT + imageSize_.x;
+				position_.y = Screen::HEIGHT - 64 * 2;
 			}
 			else
 			{
 				position_.x = BASESTAGE::LINE_POS_LEFT - imageSize_.x;
+				position_.y = Screen::HEIGHT - 64 * 2;
 			}
 		}
 		else

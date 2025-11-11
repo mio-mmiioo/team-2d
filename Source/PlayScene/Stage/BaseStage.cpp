@@ -5,8 +5,6 @@
 
 namespace BASESTAGE {
 	char filename[64]; // 生成するcurrentStage_のファイル名
-	const int ADD_X = 4;
-	const int ADD_Y = 4;
 }
 
 BaseStage::BaseStage()
@@ -36,19 +34,20 @@ void BaseStage::Draw()
 {
 	int w = imageSize_.x;
 	int h = imageSize_.y;
-	for (int y = 0; y < baseStage_.size(); y++) {
-		for (int x = 0; x < baseStage_[y].size(); x++) {
-			int c = baseStage_[y][x];
+
+	for (int y = baseStage_.size() - 1 - BASESTAGE::ADD_Y; y >= -BASESTAGE::ADD_Y; y--) {
+		for (int x = baseStage_[0].size() - 1; x >= 0; x--) {
+			int c = baseStage_[y + BASESTAGE::ADD_Y][x];
 			if (c == 2) {
-				DrawRectGraph(x * w, y * h - BASESTAGE::ADD_Y * h, 3 * w, 1 * h, w, h, hImage_, TRUE);
+				DrawRectGraph(x * w, y * h, 3 * w, 1 * h, w, h, hImage_, TRUE);
 			}
 			if (c == 3)
 			{
-				DrawRectGraph(x * w, y * h - BASESTAGE::ADD_Y * h, 0, 1 * h, w, h, hImage_, TRUE);
+				DrawRectGraph(x * w, y * h, 0, 1 * h, w, h, hImage_, TRUE);
 			}
 			if (c == 4)
 			{
-				DrawRectGraph(x * w, y * h - BASESTAGE::ADD_Y * h, 4 * w, 1 * h, w, h, hImage_, TRUE);
+				DrawRectGraph(x * w, y * h, 4 * w, 1 * h, w, h, hImage_, TRUE);
 			}
 		}
 	}
@@ -120,7 +119,7 @@ void BaseStage::SetStageData(std::vector<std::vector<int>> *stage, const char* f
 			int c = (*stage)[y][x];
 			if (c == 1) {
 				int px = x * imageSize_.x + imageSize_.x / 2.0f;
-				int py = y * imageSize_.y + imageSize_.y / 2.0f;
+				int py = y * imageSize_.y + imageSize_.y / 2.0f - BASESTAGE::ADD_Y * imageSize_.y;
 				new Player(VECTOR2(px, py));
 			}
 		}
@@ -165,7 +164,7 @@ bool BaseStage::IsWall(VECTOR2 pos)
 {
 	// チップの場所を特定する
 	int x = pos.x / imageSize_.x;
-	int y = pos.y / imageSize_.y;
+	int y = pos.y / imageSize_.y + BASESTAGE::ADD_Y;
 	if (y < 0 || y >= baseStage_.size()) {
 		return false;
 	}
