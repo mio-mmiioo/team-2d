@@ -2,6 +2,7 @@
 #include <assert.h>
 #include "../../../Library/CsvReader.h"
 #include "../Player/Player.h"
+#include "../../Data.h"
 
 namespace BASESTAGE {
 	char filename[64]; // 生成するcurrentStage_のファイル名
@@ -89,9 +90,9 @@ int BaseStage::CheckUp(VECTOR2 pos)
 
 void BaseStage::ChooseStage(int level)
 {
-	// プレイヤーのクリアカウント(走った回数)によって、登場させたいstageを変えたいならここで変える
-	int nextStageNumber = 1;
-	CreateStage(nextStageNumber, level);
+	int nextStageNumber = rand() % Data::stageLevel[level + 1].size();
+	nextStageNumber = Data::stageLevel[level + 1][nextStageNumber];
+	CreateStage(nextStageNumber);
 }
 
 void BaseStage::SetStageData(std::vector<std::vector<int>> *stage, const char* filename)
@@ -146,7 +147,7 @@ void BaseStage::SetStageData(std::vector<std::vector<int>>* stage, const char* f
 	}
 }
 
-void BaseStage::CreateStage(int number, int level)
+void BaseStage::CreateStage(int number)
 {
 	sprintf_s<64>(BASESTAGE::filename, "data/stage/stage%03.csv", number);
 	SetStageData(&currentStage_, BASESTAGE::filename, BASESTAGE::ADD_X, BASESTAGE::ADD_Y);

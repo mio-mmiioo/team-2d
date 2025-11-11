@@ -1,4 +1,4 @@
 データ名,数値,補足説明
 Gravity,0.05,重力
 JumpHeight,128,ジャンプの最大の高さ
-MoveSpeed,1,動く速さ
+MoveSpeed,2,動く速さ
