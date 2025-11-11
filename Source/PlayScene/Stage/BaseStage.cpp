@@ -13,7 +13,7 @@ BaseStage::BaseStage()
 	assert(hImage_ > 0);
 	imageSize_ = VECTOR2(64, 64);
 	isPlayerAlive_ = true; // プレイヤー生きてる
-	SetStageData(&baseStage_, "data/stage/baseStage.csv");
+	SetStageData(&baseStage_, "data/baseStage.csv");
 	SetStageData(&currentStage_, "data/stage/stage000.csv", BASESTAGE::ADD_X, BASESTAGE::ADD_Y);
 }
 
@@ -38,14 +38,7 @@ void BaseStage::Draw()
 	for (int y = baseStage_.size() - 1 - BASESTAGE::ADD_Y; y >= -BASESTAGE::ADD_Y; y--) {
 		for (int x = baseStage_[0].size() - 1; x >= 0; x--) {
 			int c = baseStage_[y + BASESTAGE::ADD_Y][x];
-			if (c == 2) {
-				DrawRectGraph(x * w, y * h, 3 * w, 1 * h, w, h, hImage_, TRUE);
-			}
-			if (c == 3)
-			{
-				DrawRectGraph(x * w, y * h, 0, 1 * h, w, h, hImage_, TRUE);
-			}
-			if (c == 4)
+			if (c == 2)
 			{
 				DrawRectGraph(x * w, y * h, 4 * w, 1 * h, w, h, hImage_, TRUE);
 			}
@@ -97,7 +90,7 @@ int BaseStage::CheckUp(VECTOR2 pos)
 void BaseStage::ChooseStage(int level)
 {
 	// プレイヤーのクリアカウント(走った回数)によって、登場させたいstageを変えたいならここで変える
-	int nextStageNumber = rand() % 4 + 1;
+	int nextStageNumber = 1;
 	CreateStage(nextStageNumber, level);
 }
 
@@ -117,7 +110,7 @@ void BaseStage::SetStageData(std::vector<std::vector<int>> *stage, const char* f
 	for (int y = 0; y < stage->size(); y++) {
 		for (int x = 0; x < (*stage)[y].size(); x++) {
 			int c = (*stage)[y][x];
-			if (c == 1) {
+			if (c == 0) {
 				int px = x * imageSize_.x + imageSize_.x / 2.0f;
 				int py = y * imageSize_.y + imageSize_.y / 2.0f - BASESTAGE::ADD_Y * imageSize_.y;
 				new Player(VECTOR2(px, py));
@@ -144,7 +137,7 @@ void BaseStage::SetStageData(std::vector<std::vector<int>>* stage, const char* f
 		for (int x = 0; x < (*stage)[y].size(); x++) {
 			int c = (*stage)[y][x];
 			baseStage_[y + startY][x + startX] = (*stage)[y][x];
-			if (c == 1) {
+			if (c == 0) {
 				int px = x * imageSize_.x + imageSize_.x / 2.0f;
 				int py = y * imageSize_.y + imageSize_.y / 2.0f;
 				new Player(VECTOR2(px, py));
@@ -156,7 +149,7 @@ void BaseStage::SetStageData(std::vector<std::vector<int>>* stage, const char* f
 void BaseStage::CreateStage(int number, int level)
 {
 	sprintf_s<64>(BASESTAGE::filename, "data/stage/stage%03.csv", number);
-	SetStageData(&currentStage_, BASESTAGE::filename, 4, 4);
+	SetStageData(&currentStage_, BASESTAGE::filename, BASESTAGE::ADD_X, BASESTAGE::ADD_Y);
 }
 
 

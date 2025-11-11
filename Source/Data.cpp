@@ -6,10 +6,12 @@ namespace Data {
 	std::map<std::string, VECTOR2> ui;
 	std::vector<int> levelUpCount;
 	std::vector<float> levelTime;
+	std::vector<std::vector<int>> stageLevel;
 
 	void SetPlayer();
 	void SetLevelAndTime();
 	void SetUiPosition();
+	void SetStageLevel();
 }
 
 void Data::Init()
@@ -17,6 +19,7 @@ void Data::Init()
 	SetPlayer();
 	SetLevelAndTime();
 	SetUiPosition();
+	SetStageLevel();
 }
 
 void Data::SetPlayer()
@@ -62,5 +65,28 @@ void Data::SetUiPosition()
 		{
 			ui["Counter"] = VECTOR2(csv->GetFloat(i, 1), csv->GetFloat(i, 2));
 		}
+	}
+}
+
+void Data::SetStageLevel()
+{
+	stageLevel.push_back({0, 0});
+	CsvReader* csv = new CsvReader("data/stageLevel.csv");
+	int level;
+	int number;
+	for (int i = 1; i < csv->GetLines(); i++) {
+		level = csv->GetInt(i, 0);
+		number = csv->GetInt(i, 1);
+		if (stageLevel.size() - 1 < level)
+		{
+			stageLevel.push_back({ level, 0 });
+		}
+		stageLevel[level].push_back(number);
+	}
+
+	for (int i = 1; i < stageLevel.size(); i++)
+	{
+		stageLevel[i].erase(stageLevel[i].begin());
+		stageLevel[i].erase(stageLevel[i].begin());
 	}
 }
