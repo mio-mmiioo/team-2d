@@ -7,6 +7,8 @@
 #include "../../Screen.h" // プレイヤーが画面外に出ていないか判定するのに使用
 #include "Level.h"
 #include "../../Data.h"
+#include "../../../ImGui/imgui.h"
+
 
 namespace PLAYER {
 	int halfSizeX = 24;
@@ -34,12 +36,12 @@ Player::Player(VECTOR2 pos)
 	soundScaleTimer_ = Data::levelTime[0] / PLAYER::SOUND_COUNT_MAX;
 	soundScaleCounter_ = 0;
 	isGoRight_ = true;	  // 最初は右に進む
-	counter_ = 0;
+	counter_ = 31;
 	
 	//重力関連
 	onGround_ = false;
 	velocityY_ = 0;
-	jumpV0 = -sqrtf(2.0f * Data::player["Gravity"] * Data::player["JumpHeight"]);
+	jumpV0 = -sqrtf(2.0f * Data::player["Gravity"] * Data::player["JumpHeight"] * 64.0f);
 
 	startTimer_ = PLAYER::START_TIME;
 	soundStartCounter_ = 0;
@@ -47,6 +49,9 @@ Player::Player(VECTOR2 pos)
 	animTimer_ = PLAYER::ANIM_TIME;
 
 	PlaySoundMem(Sound::se["Ready"], DX_PLAYTYPE_BACK, TRUE);
+
+	nextStageNumber_ = 0;
+	flagNumber_ = -1;
 }
 
 Player::~Player()
@@ -55,11 +60,19 @@ Player::~Player()
 
 void Player::Update()
 {
+	char isSetStage = false;
+	ImGui::Begin("nextStageNumber");
+	ImGui::InputInt("stageSetFlag", &flagNumber_);
+	ImGui::InputInt("nextStageNumber", &nextStageNumber_);
+	ImGui::End();
 	//if (PLAYER::time != Level::CountToTime(counter_))
 	//{
 	//	SetSoundTime();
 	//}
-
+	//if (flagNumber_ == 1)
+	//{
+	//	return;
+	//}
 	// 開始音がなっている場合
 	if (soundStartCounter_ < PLAYER::SOUND_START_COUNT_MAX)
 	{
@@ -82,7 +95,7 @@ void Player::Update()
 
 	timer_ -= Time::DeltaTime();
 
-	SoundShuttleRun(); // まだ中身書いてない
+	SoundShuttleRun();
 
 	VECTOR2 move;
 
@@ -122,7 +135,7 @@ void Player::Update()
 		}
 	}
 
-	position_ = position_ + (move * Data::player["MoveSpeed"]);
+	position_ = position_ + (move * (Data::player["MoveSpeed"] + Data::playerAddSpeed[Level::CountToLevel(counter_)]));
 
 	BaseStage* st = FindGameObject<BaseStage>();
 
@@ -234,7 +247,8 @@ void Player::Update()
 			DestroyMe();
 		}
 		// ステージをセット
-		st->ChooseStage(Level::CountToLevel(counter_));
+		//st->ChooseStage(Level::CountToLevel(counter_));
+		st->CreateStage(nextStageNumber_);
 
 		// 向かう方向を変更
 		if (isGoRight_ == true)
@@ -311,6 +325,8 @@ void Player::Draw()
 		DrawFormatString((Screen::WIDTH - DrawWidth) / 2, Screen::HEIGHT / 2 - 35, GetColor(255, 255, 255), "%d", 3 - soundStartCounter_);
 		SetFontSize(20);
 	}
+
+	DrawFormatString(0, 300, GetColor(255, 255, 255), "addSpeed:%f", Data::playerAddSpeed[Level::CountToLevel(counter_)]);
 }
 
 bool Player::IsClear()
@@ -355,5 +371,5 @@ void Player::SoundShuttleRun()
 void Player::SetSoundTime()
 {
 	timer_ = Level::CountToTime(counter_);
-	soundScaleTimer_ = Level::CountToTime(counter_) / PLAYER::SOUND_COUNT_MAX;
+	soundScaleTimer_ = timer_ / PLAYER::SOUND_COUNT_MAX;
 }

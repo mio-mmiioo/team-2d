@@ -30,4 +30,8 @@ private:
 
 	// アニメーション関連
 	float animTimer_;
+
+	// データ作成しやすくする関連
+	int nextStageNumber_;
+	int flagNumber_;
 };

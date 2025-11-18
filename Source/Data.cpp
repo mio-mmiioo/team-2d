@@ -3,12 +3,14 @@
 
 namespace Data {
 	std::map<std::string, float> player;
+	std::vector<float> playerAddSpeed;
 	std::map<std::string, VECTOR2> ui;
 	std::vector<int> levelUpCount;
 	std::vector<float> levelTime;
 	std::vector<std::vector<int>> stageLevel;
 
 	void SetPlayer();
+	void SetPlayerAddSpeed();
 	void SetLevelAndTime();
 	void SetUiPosition();
 	void SetStageLevel();
@@ -17,6 +19,7 @@ namespace Data {
 void Data::Init()
 {
 	SetPlayer();
+	SetPlayerAddSpeed();
 	SetLevelAndTime();
 	SetUiPosition();
 	SetStageLevel();
@@ -36,6 +39,14 @@ void Data::SetPlayer()
 		else if (tag == "MoveSpeed") {
 			player["MoveSpeed"] = csv->GetFloat(i, 1);
 		}
+	}
+}
+
+void Data::SetPlayerAddSpeed()
+{
+	CsvReader* csv = new CsvReader("data/playerAddSpeed.csv");
+	for (int i = 1; i < csv->GetLines(); i++) {
+		playerAddSpeed.push_back(csv->GetFloat(i, 1));
 	}
 }
 
