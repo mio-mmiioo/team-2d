@@ -32,12 +32,11 @@ Player::Player(VECTOR2 pos)
 	anim_ = { 4, 3 }; // 画像の位置
 	position_ = pos;
 	hp_ = PLAYER::MAX_HP; // シャトルランは2回失敗したら失格
-	timer_ = Data::levelTime[0];
-	soundScaleTimer_ = Data::levelTime[0] / PLAYER::SOUND_COUNT_MAX;
-	soundScaleCounter_ = 0;
 	isGoRight_ = true;	  // 最初は右に進む
 	counter_ = 31;
-	
+	SetSoundTime();
+	soundScaleCounter_ = 0;
+
 	//重力関連
 	onGround_ = false;
 	velocityY_ = 0;
@@ -62,17 +61,17 @@ void Player::Update()
 {
 	char isSetStage = false;
 	ImGui::Begin("nextStageNumber");
-	ImGui::InputInt("stageSetFlag", &flagNumber_);
-	ImGui::InputInt("nextStageNumber", &nextStageNumber_);
+	ImGui::InputInt("Stop Flag", &flagNumber_);
+	ImGui::InputInt("Count", &counter_);
+	ImGui::InputInt("NextStageNumber", &nextStageNumber_);
 	ImGui::End();
-	//if (PLAYER::time != Level::CountToTime(counter_))
-	//{
-	//	SetSoundTime();
-	//}
-	//if (flagNumber_ == 1)
-	//{
-	//	return;
-	//}
+
+	// stopフラグが1の時は、処理をしない
+	if (flagNumber_ == 1)
+	{
+		return;
+	}
+	
 	// 開始音がなっている場合
 	if (soundStartCounter_ < PLAYER::SOUND_START_COUNT_MAX)
 	{
@@ -325,8 +324,6 @@ void Player::Draw()
 		DrawFormatString((Screen::WIDTH - DrawWidth) / 2, Screen::HEIGHT / 2 - 35, GetColor(255, 255, 255), "%d", 3 - soundStartCounter_);
 		SetFontSize(20);
 	}
-
-	DrawFormatString(0, 300, GetColor(255, 255, 255), "addSpeed:%f", Data::playerAddSpeed[Level::CountToLevel(counter_)]);
 }
 
 bool Player::IsClear()

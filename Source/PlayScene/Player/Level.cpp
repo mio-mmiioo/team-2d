@@ -3,15 +3,6 @@
 #include <vector>
 #include "../../Data.h"
 
-namespace Level {
-	std::vector<int> levelUpCount;
-}
-
-void Level::Init()
-{
-
-}
-
 float Level::CountToTime(int count)
 {
 	for (int i = Data::levelUpCount.size() - 1; i >= 0; i--)

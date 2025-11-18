@@ -149,7 +149,7 @@ void BaseStage::SetStageData(std::vector<std::vector<int>>* stage, const char* f
 
 void BaseStage::CreateStage(int number)
 {
-	sprintf_s<64>(BASESTAGE::filename, "data/stage/stage%03.csv", number);
+	sprintf_s<64>(BASESTAGE::filename, "data/stage/stage%03d.csv", number);
 	SetStageData(&currentStage_, BASESTAGE::filename, BASESTAGE::ADD_X, BASESTAGE::ADD_Y);
 }
 
